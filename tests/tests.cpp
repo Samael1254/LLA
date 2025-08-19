@@ -13,6 +13,8 @@ int main()
 		std::cout << "\n";
 		test00();
 		std::cout << "\n";
+		test01();
+		std::cout << "\n";
 	}
 	catch (std::exception &e)
 	{

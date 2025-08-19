@@ -10,7 +10,7 @@ CXXFLAGS = -g -I$(INCLUDE_DIR) -I. -std=c++20
 
 LDFLAGS =  -llinal -L../lib/
 
-SRCS = tests.cpp testVector.cpp testMatrix.cpp test00.cpp
+SRCS = tests.cpp testVector.cpp testMatrix.cpp test00.cpp test01.cpp
 
 $(NAME): $(SRCS) $(LIB)
 	@ make -s -C ../
