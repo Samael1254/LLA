@@ -11,12 +11,12 @@ Vector<N, T> linear_combination(std::array<Vector<N, T>, L> u, std::array<T, L> 
 	return comb;
 }
 
-template <class V, unsigned int L, class T = float>
-V linear_combination(std::array<V, L> u, std::array<T, L> coeffs)
-{
-	V comb;
-
-	for (unsigned int i = 0; i < L; ++i)
-		comb += u[i] * coeffs[i];
-	return comb;
-}
+// template <class V, unsigned int L, class T = float>
+// V linear_combination(std::array<V, L> u, std::array<T, L> coeffs)
+// {
+// 	V comb;
+//
+// 	for (unsigned int i = 0; i < L; ++i)
+// 		comb += u[i] * coeffs[i];
+// 	return comb;
+// }

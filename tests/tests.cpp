@@ -21,6 +21,8 @@ int main()
 		std::cout << "\n";
 		test04();
 		std::cout << "\n";
+		test05();
+		std::cout << "\n";
 	}
 	catch (std::exception &e)
 	{

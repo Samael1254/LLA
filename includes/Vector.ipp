@@ -157,7 +157,7 @@ T Vector<N, T>::dot(const Vector<N, T> &rhs) const
 	T res = 0;
 
 	for (unsigned int i = 0; i < N; ++i)
-		res += (*this)[i] * rhs[i];
+		res = std::fma((*this)[i], rhs[i], res);
 	return res;
 }
 
@@ -187,9 +187,9 @@ float Vector<N, T>::norm() const
 	for (unsigned int i = 0; i < N; ++i)
 	{
 		float mod = module((*this)[i]);
-		res += mod * mod;
+		res = std::fma(mod, mod, res);
 	}
-	return std::sqrt(res);
+	return std::pow(res, 0.5);
 }
 
 template <unsigned int N, class T>
