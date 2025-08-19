@@ -1,6 +1,8 @@
 #pragma once
 
+#include "module.hpp"
 #include "Vector.hpp"
+#include <cmath>
 #include <initializer_list>
 #include <iostream>
 
@@ -149,12 +151,59 @@ void Vector<N, T>::scale(T lambda)
 		(*this)[i] *= lambda;
 }
 
+template <unsigned int N, class T>
+T Vector<N, T>::dot(const Vector<N, T> &rhs) const
+{
+	T res = 0;
+
+	for (unsigned int i = 0; i < N; ++i)
+		res += (*this)[i] * rhs[i];
+	return res;
+}
+
 // Informations
 
 template <unsigned int N, class T>
 unsigned int Vector<N, T>::size() const
 {
 	return N;
+}
+
+template <unsigned int N, class T>
+float Vector<N, T>::norm_1() const
+{
+	float res = 0;
+
+	for (unsigned int i = 0; i < N; ++i)
+		res += module((*this)[i]);
+	return res;
+}
+
+template <unsigned int N, class T>
+float Vector<N, T>::norm() const
+{
+	float res = 0;
+
+	for (unsigned int i = 0; i < N; ++i)
+	{
+		float mod = module((*this)[i]);
+		res += mod * mod;
+	}
+	return std::sqrt(res);
+}
+
+template <unsigned int N, class T>
+float Vector<N, T>::norm_inf() const
+{
+	float res = 0;
+
+	for (unsigned int i = 0; i < N; ++i)
+	{
+		float mod = module((*this)[i]);
+		if (mod > res)
+			res = mod;
+	}
+	return res;
 }
 
 // Conversions

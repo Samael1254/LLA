@@ -38,9 +38,15 @@ class Vector
 	void sub(const Vector<N, T> &rhs);
 	void scale(T lambda);
 
+	T dot(const Vector<N, T> &rhs) const;
+
 	// Information
 
 	unsigned int size() const;
+
+	float norm_1() const;
+	float norm() const;
+	float norm_inf() const;
 
 	// Conversions
 

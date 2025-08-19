@@ -17,6 +17,10 @@ int main()
 		std::cout << "\n";
 		test02();
 		std::cout << "\n";
+		test03();
+		std::cout << "\n";
+		test04();
+		std::cout << "\n";
 	}
 	catch (std::exception &e)
 	{
