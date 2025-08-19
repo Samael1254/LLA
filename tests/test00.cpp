@@ -28,7 +28,7 @@ void test00()
 	b *= -2;
 	std::cout << "b *= -2 = " << b << "\n";
 
-	std::cout << "\n\e[36mMatrixes\e[0m\n";
+	std::cout << "\n\e[36mMATRIXES\e[0m\n";
 	Matrix<2, 3> ma{{1, 1, 1}, {1, 2, 2}};
 	Matrix<2, 3> mb{{0, -1, 1}, {-3, 4, 0}};
 

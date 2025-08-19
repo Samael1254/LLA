@@ -22,5 +22,5 @@ void test01()
 	std::cout << coeffs[0] << ", " << coeffs[1] << ", " << coeffs[2] << ", " << coeffs[3] << "\n";
 
 	std::cout << "\n\e[36mLINEAR COMBINATION\e[0m\n";
-	std::cout << linear_combination<3, 4>({a, b, c, d}, coeffs);
+	std::cout << linear_combination<3, 4>({a, b, c, d}, coeffs) << "\n";
 }
