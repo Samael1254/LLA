@@ -1,0 +1,51 @@
+#pragma once
+
+#include <array>
+#include <ostream>
+
+template <unsigned int M, unsigned int N, class T>
+class Matrix;
+
+template <unsigned int N, class T = float>
+class Vector
+{
+  private:
+	std::array<T, N> _values{0};
+
+  public:
+	Vector();
+	Vector(const Vector<N, T> &other);
+	Vector(std::initializer_list<T> init);
+	~Vector();
+
+	// Overloads
+	Vector &operator=(const Vector<N, T> &other);
+	template <unsigned int M, class U>
+	friend std::ostream &operator<<(std::ostream &os, const Vector<M, U> &vec);
+	T                   &operator[](unsigned int i);
+	T                    operator[](unsigned int i) const;
+
+	Vector<N, T> operator+(const Vector<N, T> &rhs);
+	Vector<N, T> operator-(const Vector<N, T> &rhs);
+	Vector<N, T> operator*(T lambda);
+	Vector<N, T> operator+=(const Vector<N, T> &rhs);
+	Vector<N, T> operator-=(const Vector<N, T> &rhs);
+	Vector<N, T> operator*=(T lambda);
+
+	// Operations
+
+	void add(const Vector<N, T> &rhs);
+	void sub(const Vector<N, T> &rhs);
+	void scale(T lambda);
+
+	// Information
+
+	unsigned int size() const;
+
+	// Conversions
+
+	Matrix<1, N, T> rowMatrix() const;
+	Matrix<N, 1, T> columnMatrix() const;
+};
+
+#include "Vector.ipp"
