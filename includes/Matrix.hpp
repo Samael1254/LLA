@@ -43,7 +43,15 @@ class Matrix
 	Vector<M, T> mul_vec(const Vector<N, T> &rhs) const;
 	template <unsigned int O>
 	Matrix<M, O, T> mul_mat(const Matrix<N, O, T> &rhs) const;
+
+	void swapRows(unsigned int r1, unsigned int r2);
+	void scaleRow(unsigned int r1, T lambda);
+	void fmaRows(unsigned int r1, unsigned int r2, T lambda);
+
+	// Transformations
+
 	Matrix<N, M, T> transpose() const;
+	Matrix<M, N, T> row_echelon() const;
 
 	// Information
 

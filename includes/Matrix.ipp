@@ -240,13 +240,72 @@ Matrix<M, O, T> Matrix<M, N, T>::mul_mat(const Matrix<N, O, T> &rhs) const
 }
 
 template <unsigned int M, unsigned int N, class T>
+void Matrix<M, N, T>::swapRows(unsigned int r1, unsigned int r2)
+{
+	std::swap(this->_values[r1], this->_values[r2]);
+}
+
+template <unsigned int M, unsigned int N, class T>
+void Matrix<M, N, T>::scaleRow(unsigned int r1, T lambda)
+{
+	std::array<T, N> &row = this->_values[r1];
+	for (unsigned int j = 0; j < N; ++j)
+		row[j] *= lambda;
+}
+
+template <unsigned int M, unsigned int N, class T>
+void Matrix<M, N, T>::fmaRows(unsigned int r1, unsigned int r2, T lambda)
+{
+	std::array<T, N> &row1 = this->_values[r1];
+	std::array<T, N> &row2 = this->_values[r2];
+	for (unsigned int j = 0; j < N; ++j)
+		row1[j] = std::fma(lambda, row2[j], row1[j]);
+}
+
+// Transformations
+
+template <unsigned int M, unsigned int N, class T>
 Matrix<N, M, T> Matrix<M, N, T>::transpose() const
 {
 	Matrix<N, M, T> res;
 
-	for (unsigned int i = 0; i < N; ++i)
-		for (unsigned int j = 0; j < M; ++j)
+	for (unsigned int i = 0; i < M; ++i)
+		for (unsigned int j = 0; j < N; ++j)
 			res[i][j] = (*this)[j][i];
+	return res;
+}
+
+template <unsigned int M, unsigned int N, class T>
+Matrix<M, N, T> Matrix<M, N, T>::row_echelon() const
+{
+	Matrix<M, N, T> res(*this);
+
+	unsigned int r = 0;
+	for (unsigned int j = 0; j < N; ++j)
+	{
+		T            pivot = 0;
+		unsigned int k;
+
+		for (unsigned int i = r; i < M; ++i)
+		{
+			T value = module(res[i][j]);
+			if (value > pivot)
+			{
+				pivot = value;
+				k = i;
+			}
+		}
+		if (pivot == 0)
+			continue;
+		r += 1;
+		res.scaleRow(k, 1 / pivot);
+		if (k != r - 1)
+			res.swapRows(k, r - 1);
+		for (unsigned int i = 0; i < M; ++i)
+			if (i != r - 1)
+				res.fmaRows(i, r - 1, -res[i][j]);
+	}
+
 	return res;
 }
 

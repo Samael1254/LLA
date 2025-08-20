@@ -1,6 +1,6 @@
 #pragma once
 
-#define NB_TESTS 12
+#define NB_TESTS 13
 
 void testVector();
 void testMatrix();
@@ -14,3 +14,4 @@ void test06();
 void test07();
 void test08();
 void test09();
+void test10();
