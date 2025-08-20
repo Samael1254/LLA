@@ -28,6 +28,9 @@ class Matrix
 	Matrix<M, N, T> operator+(const Matrix<M, N, T> &rhs);
 	Matrix<M, N, T> operator-(const Matrix<M, N, T> &rhs);
 	Matrix<M, N, T> operator*(T lambda);
+	Vector<M, T>    operator*(const Vector<N, T> &rhs);
+	template <unsigned int O>
+	Matrix<M, O, T> operator*(const Matrix<N, O, T> &rhs);
 	Matrix<M, N, T> operator+=(const Matrix<M, N, T> &rhs);
 	Matrix<M, N, T> operator-=(const Matrix<M, N, T> &rhs);
 	Matrix<M, N, T> operator*=(T lambda);
@@ -37,10 +40,16 @@ class Matrix
 	void sub(const Matrix<M, N, T> &rhs);
 	void scale(T lambda);
 
+	Vector<M, T> mul_vec(const Vector<N, T> &rhs) const;
+	template <unsigned int O>
+	Matrix<M, O, T> mul_mat(const Matrix<N, O, T> &rhs) const;
+	Matrix<N, M, T> transpose() const;
+
 	// Information
 
 	std::pair<unsigned int, unsigned int> size() const;
 	bool                                  isSquare() const;
+	T                                     trace() const;
 
 	// Extract Vectors
 

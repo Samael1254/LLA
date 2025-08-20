@@ -3,9 +3,11 @@
 #include "Matrix.hpp"
 #include "Vector.hpp"
 #include <array>
+#include <cmath>
 #include <initializer_list>
 #include <ostream>
 #include <sstream>
+#include <stdexcept>
 
 template <unsigned int M, unsigned int N, class T>
 Matrix<M, N, T>::Matrix()
@@ -104,12 +106,6 @@ const T *Matrix<M, N, T>::operator[](unsigned int i) const
 }
 
 template <unsigned int M, unsigned int N, class T>
-std::pair<unsigned int, unsigned int> Matrix<M, N, T>::size() const
-{
-	return {M, N};
-}
-
-template <unsigned int M, unsigned int N, class T>
 Matrix<M, N, T> Matrix<M, N, T>::operator+(const Matrix<M, N, T> &rhs)
 {
 	Matrix<M, N, T> res;
@@ -170,6 +166,30 @@ Matrix<M, N, T> operator*(U lambda, const Matrix<M, N, T> &rhs)
 	return res;
 }
 
+template <unsigned int M, unsigned int N, class T>
+Vector<M, T> Matrix<M, N, T>::operator*(const Vector<N, T> &rhs)
+{
+	return mul_vec(rhs);
+}
+
+template <unsigned int M, unsigned int N, class T>
+template <unsigned int O>
+Matrix<M, O, T> Matrix<M, N, T>::operator*(const Matrix<N, O, T> &rhs)
+{
+	return mul_mat(rhs);
+}
+
+template <unsigned int M, unsigned int N, class T>
+Vector<N, T> operator*(const Vector<M, T> &lhs, const Matrix<M, N, T> &rhs)
+{
+	Vector<N, T> res;
+
+	for (unsigned int i = 0; i < N; ++i)
+		for (unsigned int k = 0; k < M; ++k)
+			res[i] = std::fma(rhs[k][i], lhs[k], res[i]);
+	return res;
+}
+
 // Operations
 template <unsigned int M, unsigned int N, class T>
 void Matrix<M, N, T>::add(const Matrix<M, N, T> &rhs)
@@ -195,13 +215,69 @@ void Matrix<M, N, T>::scale(T lambda)
 			(*this)[i][j] *= lambda;
 }
 
+template <unsigned int M, unsigned int N, class T>
+Vector<M, T> Matrix<M, N, T>::mul_vec(const Vector<N, T> &rhs) const
+{
+	Vector<M, T> res;
+
+	for (unsigned int i = 0; i < M; ++i)
+		for (unsigned int k = 0; k < N; ++k)
+			res[i] = std::fma((*this)[i][k], rhs[k], res[i]);
+	return res;
+}
+
+template <unsigned int M, unsigned int N, class T>
+template <unsigned int O>
+Matrix<M, O, T> Matrix<M, N, T>::mul_mat(const Matrix<N, O, T> &rhs) const
+{
+	Matrix<M, O, T> res;
+
+	for (unsigned int i = 0; i < M; ++i)
+		for (unsigned int j = 0; j < O; ++j)
+			for (unsigned int k = 0; k < N; ++k)
+				res[i][j] = std::fma((*this)[i][k], rhs[k][j], res[i][j]);
+	return res;
+}
+
+template <unsigned int M, unsigned int N, class T>
+Matrix<N, M, T> Matrix<M, N, T>::transpose() const
+{
+	Matrix<N, M, T> res;
+
+	for (unsigned int i = 0; i < N; ++i)
+		for (unsigned int j = 0; j < M; ++j)
+			res[i][j] = (*this)[j][i];
+	return res;
+}
+
 // Information
+
+template <unsigned int M, unsigned int N, class T>
+std::pair<unsigned int, unsigned int> Matrix<M, N, T>::size() const
+{
+	return {M, N};
+}
 
 template <unsigned int M, unsigned int N, class T>
 bool Matrix<M, N, T>::isSquare() const
 {
 	return M == N;
 }
+
+template <unsigned int M, unsigned int N, class T>
+T Matrix<M, N, T>::trace() const
+{
+	if (!this->isSquare())
+		throw std::runtime_error("The trace of a non square matrix does not exist");
+
+	T res = 0;
+
+	for (unsigned int i = 0; i < M; ++i)
+		res += (*this)[i][i];
+	return res;
+}
+
+// Extract Vectors
 
 template <unsigned int M, unsigned int N, class T>
 Vector<N, T> Matrix<M, N, T>::rowVector(unsigned int idx) const
@@ -212,8 +288,6 @@ Vector<N, T> Matrix<M, N, T>::rowVector(unsigned int idx) const
 		row[j] = (*this)[idx][j];
 	return row;
 }
-
-// Extract Vectors
 
 template <unsigned int M, unsigned int N, class T>
 Vector<M, T> Matrix<M, N, T>::columnVector(unsigned int idx) const
