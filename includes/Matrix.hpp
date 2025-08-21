@@ -15,6 +15,10 @@ class Matrix
 	T _determinant2D() const;
 	T _determinant3D() const;
 
+	Matrix<M, N, T> _inverse2D() const;
+	Matrix<M, N, T> _inverse3D() const;
+	Matrix<M, N, T> _inverseND() const;
+
   public:
 	Matrix();
 	Matrix(const Matrix<M, N, T> &other);
@@ -56,6 +60,7 @@ class Matrix
 
 	Matrix<N, M, T> transpose() const;
 	Matrix<M, N, T> row_echelon() const;
+	Matrix<M, N, T> inverse() const;
 
 	// Information
 
@@ -68,6 +73,12 @@ class Matrix
 
 	Vector<N, T> rowVector(unsigned int idx) const;
 	Vector<M, T> columnVector(unsigned int idx) const;
+
+	// Generators
+
+	static Matrix<M, M, T> createIdentityMatrix();
+	template <unsigned int O>
+	Matrix<M, N + O, T> augmentMatrix(Matrix<M, O, T> rightMat);
 };
 
 #include "Matrix.ipp"

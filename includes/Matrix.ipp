@@ -5,6 +5,7 @@
 #include <array>
 #include <cmath>
 #include <initializer_list>
+#include <iostream>
 #include <ostream>
 #include <sstream>
 #include <stdexcept>
@@ -309,6 +310,65 @@ Matrix<M, N, T> Matrix<M, N, T>::row_echelon() const
 	return res;
 }
 
+template <unsigned int M, unsigned int N, class T>
+Matrix<M, N, T> Matrix<M, N, T>::inverse() const
+{
+	if (!isSquare())
+		throw std::runtime_error("A non square matrix cannot be inverted");
+	if (determinant() == 0)
+		throw std::runtime_error("The matrix is not invertible");
+
+	switch (M)
+	{
+	case 2:
+		return _inverse2D();
+	case 3:
+		return _inverse3D();
+	default:
+		return _inverseND();
+	}
+}
+
+template <unsigned int M, unsigned int N, class T>
+Matrix<M, N, T> Matrix<M, N, T>::_inverse2D() const
+{
+	Matrix<M, N, T> m = (*this);
+	Matrix<M, N, T> inv = {{m[1][1], -m[0][1]}, {-m[1][0], m[0][0]}};
+	inv *= 1 / (m[0][0] * m[1][1] - m[1][0] * m[0][1]);
+	return inv;
+}
+
+template <unsigned int M, unsigned int N, class T>
+Matrix<M, N, T> Matrix<M, N, T>::_inverse3D() const
+{
+	Matrix<M, N, T> m = (*this);
+	T               a = m[1][1] * m[2][2] - m[2][1] * m[1][2];
+	T               b = -(m[1][0] * m[2][2] - m[1][2] * m[2][0]);
+	T               c = m[1][0] * m[2][1] - m[1][1] * m[2][0];
+	T               d = -(m[0][1] * m[2][2] - m[0][2] * m[2][1]);
+	T               e = m[0][0] * m[2][2] - m[0][2] * m[2][0];
+	T               f = -(m[0][0] * m[2][1] - m[0][1] * m[2][0]);
+	T               g = m[0][1] * m[1][2] - m[0][2] * m[1][1];
+	T               h = -(m[0][0] * m[1][2] - m[0][2] * m[1][0]);
+	T               i = m[0][0] * m[1][1] - m[0][1] * m[1][0];
+
+	Matrix<M, N, T> inv{{a, d, g}, {b, e, h}, {c, f, i}};
+	inv *= 1 / (m[0][0] * a + m[0][1] * b + m[0][2] * c); // divide by det(m)
+	return inv;
+}
+
+template <unsigned int M, unsigned int N, class T>
+Matrix<M, N, T> Matrix<M, N, T>::_inverseND() const
+{
+	Matrix<M, N, T>     m = (*this);
+	Matrix<M, 2 * N, T> aug = m.augmentMatrix(Matrix<M, M, T>::createIdentityMatrix()).row_echelon();
+	Matrix<M, M, T>     res;
+	for (unsigned int i = 0; i < M; ++i)
+		for (unsigned int j = 0; j < M; ++j)
+			res[i][j] = aug[i][j + N];
+	return res;
+}
+
 // Information
 
 template <unsigned int M, unsigned int N, class T>
@@ -427,4 +487,36 @@ Vector<M, T> Matrix<M, N, T>::columnVector(unsigned int idx) const
 	for (unsigned int i = 0; i < M; ++i)
 		column[i] = (*this)[i][idx];
 	return column;
+}
+
+// Generators
+
+template <unsigned int M, unsigned int N, class T>
+Matrix<M, M, T> Matrix<M, N, T>::createIdentityMatrix()
+{
+	if (M != N)
+		throw std::runtime_error("Identity matrix has to be square");
+
+	Matrix<M, M, T> identity;
+	for (unsigned int i = 0; i < M; ++i)
+		identity[i][i] = 1;
+	return identity;
+}
+
+template <unsigned int M, unsigned int N, class T>
+template <unsigned int O>
+Matrix<M, N + O, T> Matrix<M, N, T>::augmentMatrix(Matrix<M, O, T> rightMat)
+{
+	Matrix<M, N + O, T> aug;
+	for (unsigned int i = 0; i < M; ++i)
+	{
+		for (unsigned int j = 0; j < N + O; ++j)
+		{
+			if (j < N)
+				aug[i][j] = (*this)[i][j];
+			else
+				aug[i][j] = rightMat[i][j - N];
+		}
+	}
+	return aug;
 }
