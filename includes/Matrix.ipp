@@ -467,6 +467,24 @@ T Matrix<M, N, T>::_determinantND() const
 	return det;
 }
 
+template <unsigned int M, unsigned int N, class T>
+unsigned int Matrix<M, N, T>::rank() const
+{
+	Matrix<M, N, T> re = row_echelon();
+
+	unsigned int rank = M;
+	for (unsigned int i = 0; i < M; ++i)
+	{
+		bool nullLine = true;
+		for (unsigned int j = 0; j < N; ++j)
+			if (re[i][j] != 0)
+				nullLine = false;
+		if (nullLine)
+			rank--;
+	}
+	return rank;
+}
+
 // Extract Vectors
 
 template <unsigned int M, unsigned int N, class T>

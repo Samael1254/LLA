@@ -16,7 +16,7 @@ void test12()
 	std::cout << "Matrix C: " << mc << "\n";
 	std::cout << "Matrix D: " << md << "\n";
 
-	std::cout << "\e[36mINVERSES\e[0m\n";
+	std::cout << "\e[36mINVERSE MATRIX\e[0m\n";
 	std::cout << "inv A: " << ma.inverse() << "\n";
 	std::cout << "A * inv A: " << ma.inverse().mul_mat(ma) << "\n";
 	std::cout << "inv B: " << mb.inverse() << "\n";

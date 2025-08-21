@@ -68,6 +68,7 @@ class Matrix
 	bool                                  isSquare() const;
 	T                                     trace() const;
 	T                                     determinant() const;
+	unsigned int                          rank() const;
 
 	// Extract Vectors
 
