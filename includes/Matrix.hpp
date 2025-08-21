@@ -11,6 +11,10 @@ class Matrix
   private:
 	std::array<std::array<T, N>, M> _values{0};
 
+	T _determinantND() const;
+	T _determinant2D() const;
+	T _determinant3D() const;
+
   public:
 	Matrix();
 	Matrix(const Matrix<M, N, T> &other);
@@ -58,6 +62,7 @@ class Matrix
 	std::pair<unsigned int, unsigned int> size() const;
 	bool                                  isSquare() const;
 	T                                     trace() const;
+	T                                     determinant() const;
 
 	// Extract Vectors
 

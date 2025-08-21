@@ -336,6 +336,77 @@ T Matrix<M, N, T>::trace() const
 	return res;
 }
 
+template <unsigned int M, unsigned int N, class T>
+T Matrix<M, N, T>::determinant() const
+{
+	if (!this->isSquare())
+		throw std::runtime_error("The determinant of a non square matrix does not exist");
+
+	switch (M)
+	{
+	case 2:
+		return _determinant2D();
+	case 3:
+		return _determinant3D();
+	default:
+		return _determinantND();
+	}
+}
+
+template <unsigned int M, unsigned int N, class T>
+T Matrix<M, N, T>::_determinant2D() const
+{
+	Matrix<M, N, T> mat = (*this);
+	return mat[0][0] * mat[1][1] - mat[1][0] * mat[0][1];
+}
+
+template <unsigned int M, unsigned int N, class T>
+T Matrix<M, N, T>::_determinant3D() const
+{
+	Matrix<M, N, T> mat = (*this);
+	return mat[0][0] * mat[1][1] * mat[2][2] + mat[0][1] * mat[1][2] * mat[2][0] + mat[0][2] * mat[1][0] * mat[2][1] -
+	       mat[2][0] * mat[1][1] * mat[0][2] - mat[0][0] * mat[2][1] * mat[1][2] - mat[1][0] * mat[0][1] * mat[2][2];
+}
+
+template <unsigned int M, unsigned int N, class T>
+T Matrix<M, N, T>::_determinantND() const
+{
+	Matrix<M, N, T> mat(*this);
+	T               det = 1;
+
+	unsigned int r = 0;
+	for (unsigned int j = 0; j < N; ++j)
+	{
+		T            pivot = 0;
+		unsigned int k;
+
+		for (unsigned int i = r; i < M; ++i)
+		{
+			T value = module(mat[i][j]);
+			if (value > pivot)
+			{
+				pivot = value;
+				k = i;
+			}
+		}
+		det *= pivot;
+		if (pivot == 0)
+			continue;
+		r += 1;
+		mat.scaleRow(k, 1 / pivot);
+		if (k != r - 1)
+		{
+			mat.swapRows(k, r - 1);
+			det *= -1;
+		}
+		for (unsigned int i = 0; i < M; ++i)
+			if (i != r - 1)
+				mat.fmaRows(i, r - 1, -mat[i][j]);
+	}
+
+	return det;
+}
+
 // Extract Vectors
 
 template <unsigned int M, unsigned int N, class T>
