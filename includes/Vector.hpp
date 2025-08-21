@@ -13,10 +13,10 @@ class Vector
 	std::array<T, N> _values{0};
 
   public:
-	Vector();
+	Vector() = default;
 	Vector(const Vector<N, T> &other);
 	Vector(std::initializer_list<T> init);
-	~Vector();
+	~Vector() = default;
 
 	// Overloads
 	Vector &operator=(const Vector<N, T> &other);
@@ -25,9 +25,9 @@ class Vector
 	T                   &operator[](unsigned int i);
 	T                    operator[](unsigned int i) const;
 
-	Vector<N, T> operator+(const Vector<N, T> &rhs);
-	Vector<N, T> operator-(const Vector<N, T> &rhs);
-	Vector<N, T> operator*(T lambda);
+	Vector<N, T> operator+(const Vector<N, T> &rhs) const;
+	Vector<N, T> operator-(const Vector<N, T> &rhs) const;
+	Vector<N, T> operator*(T lambda) const;
 	Vector<N, T> operator+=(const Vector<N, T> &rhs);
 	Vector<N, T> operator-=(const Vector<N, T> &rhs);
 	Vector<N, T> operator*=(T lambda);

@@ -23,7 +23,7 @@ class Matrix
 	Matrix();
 	Matrix(const Matrix<M, N, T> &other);
 	Matrix(std::initializer_list<std::initializer_list<T>> init);
-	~Matrix();
+	~Matrix() = default;
 
 	// Overloads
 

@@ -43,11 +43,6 @@ Matrix<M, N, T>::Matrix(const Matrix<M, N, T> &other)
 			this->_values[i][j] = other._values[i][j];
 }
 
-template <unsigned int M, unsigned int N, class T>
-Matrix<M, N, T>::~Matrix()
-{
-}
-
 // Overloads
 
 template <unsigned int M, unsigned int N, class T>

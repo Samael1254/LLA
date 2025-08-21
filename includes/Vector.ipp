@@ -9,11 +9,6 @@
 // Constructors and destructor
 
 template <unsigned int N, class T>
-Vector<N, T>::Vector()
-{
-}
-
-template <unsigned int N, class T>
 Vector<N, T>::Vector(std::initializer_list<T> init)
 {
 	if (init.size() != N)
@@ -28,9 +23,6 @@ template <unsigned int N, class T>
 Vector<N, T>::Vector(const Vector<N, T> &other) : _values(other._values)
 {
 }
-
-template <unsigned int N, class T>
-Vector<N, T>::~Vector(){};
 
 // Operator overloads
 
@@ -70,7 +62,7 @@ T Vector<N, T>::operator[](unsigned int i) const
 }
 
 template <unsigned int N, class T>
-Vector<N, T> Vector<N, T>::operator+(const Vector<N, T> &rhs)
+Vector<N, T> Vector<N, T>::operator+(const Vector<N, T> &rhs) const
 {
 	Vector<N, T> res;
 	for (unsigned int i = 0; i < N; ++i)
@@ -79,7 +71,7 @@ Vector<N, T> Vector<N, T>::operator+(const Vector<N, T> &rhs)
 }
 
 template <unsigned int N, class T>
-Vector<N, T> Vector<N, T>::operator-(const Vector<N, T> &rhs)
+Vector<N, T> Vector<N, T>::operator-(const Vector<N, T> &rhs) const
 {
 	Vector<N, T> res;
 	for (unsigned int i = 0; i < N; ++i)
@@ -88,7 +80,7 @@ Vector<N, T> Vector<N, T>::operator-(const Vector<N, T> &rhs)
 }
 
 template <unsigned int N, class T>
-Vector<N, T> Vector<N, T>::operator*(T lambda)
+Vector<N, T> Vector<N, T>::operator*(T lambda) const
 {
 	Vector<N, T> res;
 
@@ -189,7 +181,7 @@ float Vector<N, T>::norm() const
 		float mod = module((*this)[i]);
 		res = std::fma(mod, mod, res);
 	}
-	return std::pow(res, 0.5);
+	return static_cast<float>(std::pow(res, 0.5));
 }
 
 template <unsigned int N, class T>
@@ -200,7 +192,7 @@ float Vector<N, T>::norm_inf() const
 	for (unsigned int i = 0; i < N; ++i)
 	{
 		float mod = module((*this)[i]);
-		if (mod > res)
+		if (res < mod)
 			res = mod;
 	}
 	return res;
