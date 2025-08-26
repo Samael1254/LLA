@@ -6,7 +6,7 @@ BUILD_DIR = build
 
 INCLUDES_DIR = includes
 
-SRCS =
+SRCS = Complex.cpp projection.cpp
 
 SRCS := $(addprefix $(SRCS_DIR)/, $(SRCS))
 

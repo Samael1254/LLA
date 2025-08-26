@@ -1,3 +1,5 @@
+#include "Complex.hpp"
+#include <cmath>
 #include <string>
 #include <typeinfo>
 
@@ -11,5 +13,6 @@ float module(T nb)
 		return static_cast<float>(nb);
 	}
 	if (std::string(typeid(nb).name()) == "Complex")
-		return nb.module();
+		return static_cast<Complex>(nb).module();
+	return NAN;
 }

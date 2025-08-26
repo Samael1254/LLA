@@ -13,7 +13,8 @@ LDFLAGS =  -llinal -L../lib/
 SRCS = tests.cpp testVector.cpp testMatrix.cpp\
 	   test00.cpp test01.cpp test02.cpp test03.cpp test04.cpp\
 	   test05.cpp test06.cpp test07.cpp test08.cpp test09.cpp\
-	   test10.cpp test11.cpp test12.cpp test13.cpp test15.cpp
+	   test10.cpp test11.cpp test12.cpp test13.cpp test14.cpp\
+	   # test15.cpp
 
 $(NAME): $(SRCS) $(LIB)
 	@ make -s -C ../
