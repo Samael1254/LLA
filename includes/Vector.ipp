@@ -1,7 +1,6 @@
 #pragma once
 
-#include "module.hpp"
-#include "Vector.hpp"
+#include "liblinal.hpp"
 #include <cmath>
 #include <initializer_list>
 #include <iostream>
