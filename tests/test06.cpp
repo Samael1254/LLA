@@ -1,4 +1,3 @@
-#include "cross_product.hpp"
 #include "Vector.hpp"
 #include <iostream>
 

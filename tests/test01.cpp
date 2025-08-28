@@ -1,4 +1,3 @@
-#include "linear_combination.hpp"
 #include "Vector.hpp"
 #include <array>
 #include <iostream>

@@ -1,4 +1,3 @@
-#include "angle_cos.hpp"
 #include "Vector.hpp"
 #include <iostream>
 

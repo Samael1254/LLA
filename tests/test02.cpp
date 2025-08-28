@@ -1,4 +1,3 @@
-#include "lerp.hpp"
 #include "Matrix.hpp"
 #include "Vector.hpp"
 #include <iostream>
