@@ -28,8 +28,10 @@ $(NAME): $(OBJS)
 	@ echo " \033[32m \033[1mliblinal.a\033[0;32m compiled in \033[1mlib/\033[m"
 
 $(BUILD_DIR)/%.o: $(SRCS_DIR)/%.cpp
+	@ echo " \033[33m  Compiling $(notdir $@)...\033[m"
 	@ mkdir -p build
 	@ $(CXX) $(CXXFLAGS) -c $< -o $@
+	@ tput cuu1 && tput el
 
 all: $(NAME)
 
