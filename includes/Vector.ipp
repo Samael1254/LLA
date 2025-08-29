@@ -1,6 +1,7 @@
 #pragma once
 
 #include "liblinal.hpp"
+#include "Vector.hpp"
 #include <cmath>
 #include <initializer_list>
 #include <iostream>
@@ -215,4 +216,11 @@ Matrix<N, 1, T> Vector<N, T>::columnMatrix() const
 	for (unsigned int i = 0; i < N; i++)
 		column[i][0] = this->_values[i];
 	return column;
+}
+
+template <unsigned int N, class T>
+void Vector<N, T>::array(T array[N]) const
+{
+	for (unsigned int i = 0; i < N; i++)
+		array[i] = this->_values[i];
 }

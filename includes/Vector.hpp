@@ -52,6 +52,7 @@ class Vector
 
 	Matrix<1, N, T> rowMatrix() const;
 	Matrix<N, 1, T> columnMatrix() const;
+	void            array(T array[N]) const;
 };
 
 #include "Vector.ipp"
