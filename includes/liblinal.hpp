@@ -1,12 +1,19 @@
 #pragma once
 
 #include "Complex.hpp"
-#include "Matrix.hpp"
 #include "Vector.hpp"
 #include <array>
 #include <cmath>
+#include <cstdint>
 #include <string>
 #include <typeinfo>
+
+enum EAxis : std::uint8_t
+{
+	XAxis,
+	YAxis,
+	ZAxis,
+};
 
 template <unsigned int N, class T = float>
 float angle_cos(const Vector<N, T> &u, const Vector<N, T> &v)

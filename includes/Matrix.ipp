@@ -81,7 +81,7 @@ std::ostream &operator<<(std::ostream &os, const Matrix<M, N, T> &mat)
 			unsigned short width = ss.str().length();
 
 			os << mat._values[i][j];
-			for (unsigned int k = 0; k < widths[j] - width + (j < N - 1); ++k)
+			for (unsigned short k = 0; k < widths[j] - width + (j < N - 1); ++k)
 				os << " ";
 		}
 		os << "|\n";
@@ -517,6 +517,24 @@ Matrix<M, M, T> Matrix<M, N, T>::createIdentityMatrix()
 }
 
 template <unsigned int M, unsigned int N, class T>
+Matrix<M, M, T> Matrix<M, N, T>::createRotationMatrix(float angle, EAxis axis)
+{
+	if (M < 3 || M > 4)
+		throw std::runtime_error("cannot create rotation matrix of given size");
+
+	Matrix<M, M, T> m = createIdentityMatrix();
+	float           cos = std::cos(angle);
+	float           sin = std::sin(angle);
+
+	m[(axis + 1) % 3][(axis + 1) % 3] = cos;
+	m[(axis + 2) % 3][(axis + 2) % 3] = cos;
+	m[(axis + 1) % 3][(axis + 2) % 3] = -sin;
+	m[(axis + 2) % 3][(axis + 1) % 3] = sin;
+
+	return m;
+}
+
+template <unsigned int M, unsigned int N, class T>
 template <unsigned int O>
 Matrix<M, N + O, T> Matrix<M, N, T>::augmentMatrix(Matrix<M, O, T> rightMat)
 {
@@ -532,4 +550,20 @@ Matrix<M, N + O, T> Matrix<M, N, T>::augmentMatrix(Matrix<M, O, T> rightMat)
 		}
 	}
 	return aug;
+}
+
+template <unsigned int M, unsigned int N, class T>
+void Matrix<M, N, T>::arrayRMO(T array[M * N]) const
+{
+	for (unsigned int i = 0; i < M; ++i)
+		for (unsigned int j = 0; j < N; ++j)
+			array[(i * M) + j] = (*this)[i][j];
+}
+
+template <unsigned int M, unsigned int N, class T>
+void Matrix<M, N, T>::arrayCMO(T array[M * N]) const
+{
+	for (unsigned int j = 0; j < N; ++j)
+		for (unsigned int i = 0; i < N; ++i)
+			array[(j * N) + i] = (*this)[i][j];
 }

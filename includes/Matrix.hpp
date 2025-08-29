@@ -1,5 +1,6 @@
 #pragma once
 
+#include "liblinal.hpp"
 #include "Vector.hpp"
 #include <array>
 #include <ostream>
@@ -78,8 +79,13 @@ class Matrix
 	// Generators
 
 	static Matrix<M, M, T> createIdentityMatrix();
+	static Matrix<M, M, T> createRotationMatrix(float angle, EAxis axis);
+
 	template <unsigned int O>
 	Matrix<M, N + O, T> augmentMatrix(Matrix<M, O, T> rightMat);
+
+	void arrayRMO(T array[M * N]) const;
+	void arrayCMO(T array[M * N]) const;
 };
 
 #include "Matrix.ipp"
