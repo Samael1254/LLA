@@ -10,7 +10,7 @@ template <unsigned int M, unsigned int N, class T = float>
 class Matrix
 {
   private:
-	std::array<std::array<T, N>, M> _values{0};
+	std::array<std::array<T, N>, M> _values;
 
 	T _determinantND() const;
 	T _determinant2D() const;
