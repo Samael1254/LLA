@@ -535,8 +535,19 @@ Matrix<M, M, T> Matrix<M, N, T>::createRotationMatrix(float angle, EAxis axis)
 }
 
 template <unsigned int M, unsigned int N, class T>
+Matrix<M, M, T> Matrix<M, N, T>::createTranslationMatrix(const Vector<M - 1> &translator)
+{
+	Matrix<4, 4> mat = createIdentityMatrix();
+
+	for (int i = 0; i < M - 1; ++i)
+		mat[i][M - 1] = translator[i];
+
+	return mat;
+}
+
+template <unsigned int M, unsigned int N, class T>
 template <unsigned int O>
-Matrix<M, N + O, T> Matrix<M, N, T>::augmentMatrix(Matrix<M, O, T> rightMat)
+Matrix<M, N + O, T> Matrix<M, N, T>::augmentMatrix(const Matrix<M, O, T> &rightMat)
 {
 	Matrix<M, N + O, T> aug;
 	for (unsigned int i = 0; i < M; ++i)

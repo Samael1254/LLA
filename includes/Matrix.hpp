@@ -80,9 +80,10 @@ class Matrix
 
 	static Matrix<M, M, T> createIdentityMatrix();
 	static Matrix<M, M, T> createRotationMatrix(float angle, EAxis axis);
+	static Matrix<M, M, T> createTranslationMatrix(const Vector<M - 1> &translator);
 
 	template <unsigned int O>
-	Matrix<M, N + O, T> augmentMatrix(Matrix<M, O, T> rightMat);
+	Matrix<M, N + O, T> augmentMatrix(const Matrix<M, O, T> &rightMat);
 
 	void arrayRMO(T array[M * N]) const;
 	void arrayCMO(T array[M * N]) const;
