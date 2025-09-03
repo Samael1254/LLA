@@ -18,6 +18,18 @@ class Vector
 	Vector(std::initializer_list<T> init);
 	~Vector() = default;
 
+	// Getters
+	T x() const;
+	T y() const;
+	T z() const;
+	T w() const;
+	T r() const;
+	T g() const;
+	T b() const;
+	T a() const;
+	T u() const;
+	T v() const;
+
 	// Overloads
 	Vector &operator=(const Vector<N, T> &other);
 	template <unsigned int M, class U>

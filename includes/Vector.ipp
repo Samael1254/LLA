@@ -5,6 +5,7 @@
 #include <cmath>
 #include <initializer_list>
 #include <iostream>
+#include <stdexcept>
 
 // Constructors and destructor
 
@@ -22,6 +23,88 @@ Vector<N, T>::Vector(std::initializer_list<T> init)
 template <unsigned int N, class T>
 Vector<N, T>::Vector(const Vector<N, T> &other) : _values(other._values)
 {
+}
+
+// Getters
+
+template <unsigned int N, class T>
+T Vector<N, T>::x() const
+{
+	if (N < 1)
+		throw std::logic_error("cannot access member 'x' of a vector of size < 1");
+	return _values[0];
+}
+
+template <unsigned int N, class T>
+T Vector<N, T>::y() const
+{
+	if (N < 2)
+		throw std::logic_error("cannot access member 'y' of a vector of size < 2");
+	return _values[1];
+}
+
+template <unsigned int N, class T>
+T Vector<N, T>::z() const
+{
+	if (N < 3)
+		throw std::logic_error("cannot access member 'z' of a vector of size < 3");
+	return _values[2];
+}
+
+template <unsigned int N, class T>
+T Vector<N, T>::w() const
+{
+	if (N < 4)
+		throw std::logic_error("cannot access member 'w' of a vector of size < 4");
+	return _values[3];
+}
+
+template <unsigned int N, class T>
+T Vector<N, T>::r() const
+{
+	if (N < 1)
+		throw std::logic_error("cannot access member 'r' of a vector of size < 1");
+	return _values[0];
+}
+
+template <unsigned int N, class T>
+T Vector<N, T>::g() const
+{
+	if (N < 2)
+		throw std::logic_error("cannot access member 'g' of a vector of size < 2");
+	return _values[1];
+}
+
+template <unsigned int N, class T>
+T Vector<N, T>::b() const
+{
+	if (N < 3)
+		throw std::logic_error("cannot access member 'b' of a vector of size < 3");
+	return _values[2];
+}
+
+template <unsigned int N, class T>
+T Vector<N, T>::a() const
+{
+	if (N < 4)
+		throw std::logic_error("cannot access member 'a' of a vector of size < 4");
+	return _values[3];
+}
+
+template <unsigned int N, class T>
+T Vector<N, T>::u() const
+{
+	if (N < 1)
+		throw std::logic_error("cannot access member 'u' of a vector of size < 1");
+	return _values[0];
+}
+
+template <unsigned int N, class T>
+T Vector<N, T>::v() const
+{
+	if (N < 2)
+		throw std::logic_error("cannot access member 'v' of a vector of size < 2");
+	return _values[1];
 }
 
 // Operator overloads
