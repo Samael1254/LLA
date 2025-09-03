@@ -22,7 +22,7 @@ float angle_cos(const Vector<N, T> &u, const Vector<N, T> &v)
 }
 
 template <class T = float>
-Vector<3, T> cross_prouct(const Vector<3, T> &u, const Vector<3, T> &v)
+Vector<3, T> cross_product(const Vector<3, T> &u, const Vector<3, T> &v)
 {
 	Vector<3, T> res;
 

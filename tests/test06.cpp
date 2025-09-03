@@ -12,7 +12,7 @@ void test06()
 	std::cout << "Vector b: " << b << "\n";
 
 	std::cout << "\n\e[36mCROSS PRODUCT\e[0m\n";
-	std::cout << "a ^ b = " << cross_prouct(a, b) << "\n";
-	std::cout << "b ^ a = " << cross_prouct(b, a) << "\n";
-	std::cout << "a ^ a = " << cross_prouct(a, a) << "\n";
+	std::cout << "a ^ b = " << cross_product(a, b) << "\n";
+	std::cout << "b ^ a = " << cross_product(b, a) << "\n";
+	std::cout << "a ^ a = " << cross_product(a, a) << "\n";
 }
