@@ -539,7 +539,7 @@ Matrix<M, M, T> Matrix<M, N, T>::createTranslationMatrix(const Vector<M - 1> &tr
 {
 	Matrix<4, 4> mat = createIdentityMatrix();
 
-	for (int i = 0; i < M - 1; ++i)
+	for (unsigned int i = 0; i < M - 1; ++i)
 		mat[i][M - 1] = translator[i];
 
 	return mat;
@@ -550,7 +550,7 @@ Matrix<M, M, T> Matrix<M, N, T>::createScalingMatrix(const Vector<M> &scale)
 {
 	Matrix<4, 4> mat;
 
-	for (int i = 0; i < M; ++i)
+	for (unsigned int i = 0; i < M; ++i)
 		mat[i][i] = scale[i];
 
 	return mat;
