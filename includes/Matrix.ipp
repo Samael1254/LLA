@@ -546,6 +546,17 @@ Matrix<M, M, T> Matrix<M, N, T>::createTranslationMatrix(const Vector<M - 1> &tr
 }
 
 template <unsigned int M, unsigned int N, class T>
+Matrix<M, M, T> Matrix<M, N, T>::createScalingMatrix(const Vector<M> &scale)
+{
+	Matrix<4, 4> mat;
+
+	for (int i = 0; i < M; ++i)
+		mat[i][i] = scale[i];
+
+	return mat;
+}
+
+template <unsigned int M, unsigned int N, class T>
 template <unsigned int O>
 Matrix<M, N + O, T> Matrix<M, N, T>::augmentMatrix(const Matrix<M, O, T> &rightMat)
 {

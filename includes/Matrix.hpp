@@ -81,6 +81,7 @@ class Matrix
 	static Matrix<M, M, T> createIdentityMatrix();
 	static Matrix<M, M, T> createRotationMatrix(float angle, EAxis axis);
 	static Matrix<M, M, T> createTranslationMatrix(const Vector<M - 1> &translator);
+	static Matrix<M, M, T> createScalingMatrix(const Vector<M> &scale);
 
 	template <unsigned int O>
 	Matrix<M, N + O, T> augmentMatrix(const Matrix<M, O, T> &rightMat);
