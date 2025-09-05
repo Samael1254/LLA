@@ -10,9 +10,9 @@ void test04()
 	std::cout << "Vector a: " << a << "\n";
 
 	std::cout << "\n\e[36mNORM 1\e[0m\n";
-	std::cout << "a.b = " << a.norm_1() << "\n";
+	std::cout << a.norm_1() << "\n";
 	std::cout << "\n\e[36mEUCLIDEAN NORM\e[0m\n";
-	std::cout << "a.b = " << a.norm() << "\n";
+	std::cout << a.norm() << "\n";
 	std::cout << "\n\e[36mNORM INFINITY\e[0m\n";
-	std::cout << "a.b = " << a.norm_inf() << "\n";
+	std::cout << a.norm_inf() << "\n";
 }

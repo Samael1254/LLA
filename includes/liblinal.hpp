@@ -3,10 +3,8 @@
 #include "Complex.hpp"
 #include "Vector.hpp"
 #include <array>
-#include <cmath>
 #include <cstdint>
-#include <string>
-#include <typeinfo>
+#include <type_traits>
 
 enum EAxis : std::uint8_t
 {
@@ -57,18 +55,12 @@ Vector<N, T> linear_combination(std::array<Vector<N, T>, L> u, std::array<T, L> 
 // 	return comb;
 // }
 
-template <class T>
-float module(T nb)
+template <typename T, typename = std::enable_if_t<std::is_arithmetic_v<T>>>
+T module(T nb)
 {
-	if (std::string(typeid(nb).name()) == "float")
-	{
-		if (nb < 0)
-			return static_cast<float>(-nb);
-		return static_cast<float>(nb);
-	}
-	if (std::string(typeid(nb).name()) == "Complex")
-		return static_cast<Complex>(nb).module();
-	return NAN;
+	return std::abs(nb);
 }
+
+float module(const Complex &c);
 
 Matrix<4, 4, float> projection(float fov, float ratio, float near, float far);

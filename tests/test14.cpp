@@ -1,5 +1,5 @@
+#include "Matrix.hpp"
 #include "liblinal.hpp"
-#include <cmath>
 #include <iostream>
 
 void test14()

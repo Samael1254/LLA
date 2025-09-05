@@ -52,7 +52,7 @@ class Vector
 
 	T dot(const Vector<N, T> &rhs) const;
 
-	void normalize();
+	void         normalize();
 	Vector<N, T> normalized() const;
 
 	// Information
