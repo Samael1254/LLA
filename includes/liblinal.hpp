@@ -56,11 +56,11 @@ Vector<N, T> linear_combination(std::array<Vector<N, T>, L> u, std::array<T, L> 
 // }
 
 template <typename T, typename = std::enable_if_t<std::is_arithmetic_v<T>>>
-T module(T nb)
+float mod(T nb)
 {
 	return std::abs(nb);
 }
 
-float module(const Complex &c);
+float mod(const Complex &c);
 
 Matrix<4, 4, float> projection(float fov, float ratio, float near, float far);

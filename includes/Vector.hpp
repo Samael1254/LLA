@@ -1,7 +1,13 @@
 #pragma once
 
+#include "Complex.hpp"
 #include <array>
 #include <ostream>
+
+template <typename T, typename>
+float mod(T nb);
+
+float mod(const Complex &c);
 
 template <unsigned int M, unsigned int N, class T>
 class Matrix;

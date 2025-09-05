@@ -284,7 +284,7 @@ Matrix<M, N, T> Matrix<M, N, T>::row_echelon() const
 
 		for (unsigned int i = r; i < M; ++i)
 		{
-			T value = module(res[i][j]);
+			T value = mod(res[i][j]);
 			if (value > pivot)
 			{
 				pivot = value;
@@ -437,7 +437,7 @@ T Matrix<M, N, T>::_determinantND() const
 
 		for (unsigned int i = r; i < M; ++i)
 		{
-			T value = module(mat[i][j]);
+			T value = mod(mat[i][j]);
 			if (value > pivot)
 			{
 				pivot = value;

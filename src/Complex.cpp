@@ -158,7 +158,7 @@ float Complex::im() const
 	return _im;
 }
 
-float Complex::module() const
+float Complex::mod() const
 {
 	return static_cast<float>(std::pow((_real * _real) + (_im * _im), 0.5));
 }

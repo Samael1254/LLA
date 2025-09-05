@@ -39,5 +39,5 @@ class Complex
 
 	float real() const;
 	float im() const;
-	float module() const;
+	float mod() const;
 };

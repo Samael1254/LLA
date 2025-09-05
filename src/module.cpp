@@ -1,6 +1,6 @@
 #include "Complex.hpp"
 
-float module(const Complex &c)
+float mod(const Complex &c)
 {
-	return c.module();
+	return c.mod();
 }

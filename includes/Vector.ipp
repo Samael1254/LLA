@@ -262,7 +262,7 @@ float Vector<N, T>::norm_1() const
 	float res = 0;
 
 	for (unsigned int i = 0; i < N; ++i)
-		res += module((*this)[i]);
+		res += mod((*this)[i]);
 	return res;
 }
 
@@ -273,8 +273,8 @@ float Vector<N, T>::norm() const
 
 	for (unsigned int i = 0; i < N; ++i)
 	{
-		float mod = module((*this)[i]);
-		res = std::fma(mod, mod, res);
+		float module = mod((*this)[i]);
+		res = std::fma(module, module, res);
 	}
 	return static_cast<float>(std::pow(res, 0.5));
 }
@@ -286,9 +286,9 @@ float Vector<N, T>::norm_inf() const
 
 	for (unsigned int i = 0; i < N; ++i)
 	{
-		float mod = module((*this)[i]);
-		if (res < mod)
-			res = mod;
+		float module = mod((*this)[i]);
+		if (res < module)
+			res = module;
 	}
 	return res;
 }
