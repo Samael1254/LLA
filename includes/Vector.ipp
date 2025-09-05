@@ -1,7 +1,7 @@
 #pragma once
 
-#include "liblinal.hpp"
 #include "Vector.hpp"
+#include "liblinal.hpp"
 #include <cmath>
 #include <initializer_list>
 #include <iostream>
@@ -234,6 +234,18 @@ T Vector<N, T>::dot(const Vector<N, T> &rhs) const
 	for (unsigned int i = 0; i < N; ++i)
 		res = std::fma((*this)[i], rhs[i], res);
 	return res;
+}
+
+template <unsigned int N, class T>
+void Vector<N, T>::normalize()
+{
+	*this = this->normalized();
+}
+
+template <unsigned int N, class T>
+Vector<N, T> Vector<N, T>::normalized() const
+{
+	return *this * (1 / this->norm());
 }
 
 // Informations

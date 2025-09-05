@@ -52,6 +52,9 @@ class Vector
 
 	T dot(const Vector<N, T> &rhs) const;
 
+	void normalize();
+	Vector<N, T> normalized() const;
+
 	// Information
 
 	unsigned int size() const;
