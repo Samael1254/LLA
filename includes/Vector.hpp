@@ -74,6 +74,8 @@ class Vector
 	Matrix<1, N, T> rowMatrix() const;
 	Matrix<N, 1, T> columnMatrix() const;
 	void            array(T array[N]) const;
+	template <unsigned int M>
+	Vector<M, T> resize(bool isHomogenous) const;
 };
 
 #include "Vector.ipp"

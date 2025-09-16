@@ -1,7 +1,7 @@
 #pragma once
 
-#include "liblinal.hpp"
 #include "Vector.hpp"
+#include "liblinal.hpp"
 #include <array>
 #include <ostream>
 #include <utility>
@@ -75,6 +75,10 @@ class Matrix
 
 	Vector<N, T> rowVector(unsigned int idx) const;
 	Vector<M, T> columnVector(unsigned int idx) const;
+
+	// Resize
+	template <unsigned int O, unsigned int P>
+	Matrix<O, P, T> resize(bool isHomogenous) const;
 
 	// Generators
 

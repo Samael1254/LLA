@@ -502,6 +502,26 @@ Vector<M, T> Matrix<M, N, T>::columnVector(unsigned int idx) const
 	return column;
 }
 
+// Resize
+template <unsigned int M, unsigned int N, class T>
+template <unsigned int O, unsigned int P>
+Matrix<O, P, T> Matrix<M, N, T>::resize(bool isHomogenous) const
+{
+	Matrix<O, P, T> resized;
+
+	for (unsigned int i = 0; i < O; ++i)
+	{
+		for (unsigned int j = 0; j < P; ++j)
+		{
+			if (i < M && j < N)
+				resized[i][j] = (*this)[i][j];
+			else
+				resized[i][j] = (isHomogenous && (i == j));
+		}
+	}
+	return resized;
+}
+
 // Generators
 
 template <unsigned int M, unsigned int N, class T>

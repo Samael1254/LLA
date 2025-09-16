@@ -319,3 +319,19 @@ void Vector<N, T>::array(T array[N]) const
 	for (unsigned int i = 0; i < N; i++)
 		array[i] = this->_values[i];
 }
+
+template <unsigned int N, class T>
+template <unsigned int M>
+Vector<M, T> Vector<N, T>::resize(bool isHomogenous) const
+{
+	Vector<M, T> resized;
+
+	for (unsigned int i = 0; i < M; ++i)
+	{
+		if (i < N)
+			resized[i] = _values[i];
+		else
+			resized[i] = isHomogenous;
+	}
+	return resized;
+}
