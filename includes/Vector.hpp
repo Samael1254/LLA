@@ -25,16 +25,16 @@ class Vector
 	~Vector() = default;
 
 	// Getters
-	T x() const;
-	T y() const;
-	T z() const;
-	T w() const;
-	T r() const;
-	T g() const;
-	T b() const;
-	T a() const;
-	T u() const;
-	T v() const;
+	T &x() requires(N >= 1 && N <= 4);
+	T &y() requires(N >= 2 && N <= 4);
+	T &z() requires(N >= 3 && N <= 4);
+	T &w() requires(N == 4);
+	T &r() requires(N >= 1 && N <= 4);
+	T &g() requires(N >= 2 && N <= 4);
+	T &b() requires(N >= 3 && N <= 4);
+	T &a() requires(N == 4);
+	T &u() requires(N == 2);
+	T &v() requires(N == 2);
 
 	// Overloads
 	Vector &operator=(const Vector<N, T> &other);
