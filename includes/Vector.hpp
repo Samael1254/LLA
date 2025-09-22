@@ -36,6 +36,17 @@ class Vector
 	T &u() requires(N == 2);
 	T &v() requires(N == 2);
 
+	const T &x() const requires(N >= 1 && N <= 4);
+	const T &y() const requires(N >= 2 && N <= 4);
+	const T &z() const requires(N >= 3 && N <= 4);
+	const T &w() const requires(N == 4);
+	const T &r() const requires(N >= 1 && N <= 4);
+	const T &g() const requires(N >= 2 && N <= 4);
+	const T &b() const requires(N >= 3 && N <= 4);
+	const T &a() const requires(N == 4);
+	const T &u() const requires(N == 2);
+	const T &v() const requires(N == 2);
+
 	// Overloads
 	Vector &operator=(const Vector<N, T> &other);
 	template <unsigned int M, class U>

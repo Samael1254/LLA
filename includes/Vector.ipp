@@ -1,7 +1,7 @@
 #pragma once
 
-#include "liblinal.hpp"
 #include "Vector.hpp"
+#include "liblinal.hpp"
 #include <cmath>
 #include <initializer_list>
 #include <iostream>
@@ -30,80 +30,120 @@ Vector<N, T>::Vector(const Vector<N, T> &other) : _values(other._values)
 template <unsigned int N, class T>
 T &Vector<N, T>::x() requires(N >= 1 && N <= 4)
 {
-	if (N < 1)
-		throw std::logic_error("cannot access member 'x' of a vector of size < 1");
 	return _values[0];
 }
 
 template <unsigned int N, class T>
 T &Vector<N, T>::y() requires(N >= 2 && N <= 4)
 {
-	if (N < 2)
-		throw std::logic_error("cannot access member 'y' of a vector of size < 2");
 	return _values[1];
 }
 
 template <unsigned int N, class T>
 T &Vector<N, T>::z() requires(N >= 3 && N <= 4)
 {
-	if (N < 3)
-		throw std::logic_error("cannot access member 'z' of a vector of size < 3");
 	return _values[2];
 }
 
 template <unsigned int N, class T>
 T &Vector<N, T>::w() requires(N == 4)
 {
-	if (N < 4)
-		throw std::logic_error("cannot access member 'w' of a vector of size < 4");
 	return _values[3];
 }
 
 template <unsigned int N, class T>
 T &Vector<N, T>::r() requires(N >= 1 && N <= 4)
 {
-	if (N < 1)
-		throw std::logic_error("cannot access member 'r' of a vector of size < 1");
 	return _values[0];
 }
 
 template <unsigned int N, class T>
 T &Vector<N, T>::g() requires(N >= 2 && N <= 4)
 {
-	if (N < 2)
-		throw std::logic_error("cannot access member 'g' of a vector of size < 2");
 	return _values[1];
 }
 
 template <unsigned int N, class T>
 T &Vector<N, T>::b() requires(N >= 3 && N <= 4)
 {
-	if (N < 3)
-		throw std::logic_error("cannot access member 'b' of a vector of size < 3");
 	return _values[2];
 }
 
 template <unsigned int N, class T>
 T &Vector<N, T>::a() requires(N == 4)
 {
-	if (N < 4)
-		throw std::logic_error("cannot access member 'a' of a vector of size < 4");
 	return _values[3];
 }
 
 template <unsigned int N, class T>
 T &Vector<N, T>::u() requires(N == 2)
 {
-	if (N < 1)
-		throw std::logic_error("cannot access member 'u' of a vector of size < 1");
 	return _values[0];
 }
 
 template <unsigned int N, class T>
 T &Vector<N, T>::v() requires(N == 2)
 {
-	if (N < 2)
-		throw std::logic_error("cannot access member 'v' of a vector of size < 2");
+	return _values[1];
+}
+
+template <unsigned int N, class T>
+const T &Vector<N, T>::x() const requires(N >= 1 && N <= 4)
+{
+	return _values[0];
+}
+
+template <unsigned int N, class T>
+const T &Vector<N, T>::y() const requires(N >= 2 && N <= 4)
+{
+	return _values[1];
+}
+
+template <unsigned int N, class T>
+const T &Vector<N, T>::z() const requires(N >= 3 && N <= 4)
+{
+	return _values[2];
+}
+
+template <unsigned int N, class T>
+const T &Vector<N, T>::w() const requires(N == 4)
+{
+	return _values[3];
+}
+
+template <unsigned int N, class T>
+const T &Vector<N, T>::r() const requires(N >= 1 && N <= 4)
+{
+	return _values[0];
+}
+
+template <unsigned int N, class T>
+const T &Vector<N, T>::g() const requires(N >= 2 && N <= 4)
+{
+	return _values[1];
+}
+
+template <unsigned int N, class T>
+const T &Vector<N, T>::b() const requires(N >= 3 && N <= 4)
+{
+	return _values[2];
+}
+
+template <unsigned int N, class T>
+const T &Vector<N, T>::a() const requires(N == 4)
+{
+	return _values[3];
+}
+
+template <unsigned int N, class T>
+const T &Vector<N, T>::u() const requires(N == 2)
+{
+	return _values[0];
+}
+
+template <unsigned int N, class T>
+const T &Vector<N, T>::v() const requires(N == 2)
+{
 	return _values[1];
 }
 
