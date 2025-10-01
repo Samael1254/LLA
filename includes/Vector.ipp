@@ -25,6 +25,11 @@ Vector<N, T>::Vector(const Vector<N, T> &other) : _values(other._values)
 {
 }
 
+template <unsigned int N, class T>
+Vector<N, T>::Vector(const std::array<T, N> &array) : _values(array)
+{
+}
+
 // Getters
 
 template <unsigned int N, class T>

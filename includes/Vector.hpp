@@ -21,6 +21,7 @@ class Vector
   public:
 	Vector() = default;
 	Vector(const Vector<N, T> &other);
+	Vector(const std::array<T, N> &array);
 	Vector(std::initializer_list<T> init);
 	~Vector() = default;
 
