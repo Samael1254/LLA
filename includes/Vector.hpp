@@ -12,6 +12,13 @@ float mod(const Complex &c);
 template <unsigned int M, unsigned int N, class T>
 class Matrix;
 
+/**
+ * @class Vector
+ * @brief Vector class for linear algebra and rendering purposes
+ *
+ * @tparam N Size
+ * @tparam T Type of the Vector elements
+ */
 template <unsigned int N, class T = float>
 class Vector
 {
@@ -25,7 +32,6 @@ class Vector
 	Vector(std::initializer_list<T> init);
 	~Vector() = default;
 
-	// Getters
 	T &x() requires(N >= 1 && N <= 4);
 	T &y() requires(N >= 2 && N <= 4);
 	T &z() requires(N >= 3 && N <= 4);
@@ -48,7 +54,6 @@ class Vector
 	const T &u() const requires(N == 2);
 	const T &v() const requires(N == 2);
 
-	// Overloads
 	Vector &operator=(const Vector<N, T> &other);
 	template <unsigned int M, class U>
 	friend std::ostream &operator<<(std::ostream &os, const Vector<M, U> &vec);
@@ -62,8 +67,6 @@ class Vector
 	Vector<N, T> operator-=(const Vector<N, T> &rhs);
 	Vector<N, T> operator*=(T lambda);
 
-	// Operations
-
 	void add(const Vector<N, T> &rhs);
 	void sub(const Vector<N, T> &rhs);
 	void scale(T lambda);
@@ -72,16 +75,10 @@ class Vector
 
 	void         normalize();
 	Vector<N, T> normalized() const;
-
-	// Information
-
 	unsigned int size() const;
-
-	float norm_1() const;
-	float norm() const;
-	float norm_inf() const;
-
-	// Conversions
+	float        norm_1() const;
+	float        norm() const;
+	float        norm_inf() const;
 
 	Matrix<1, N, T> rowMatrix() const;
 	Matrix<N, 1, T> columnMatrix() const;

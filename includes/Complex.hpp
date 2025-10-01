@@ -1,6 +1,12 @@
 #pragma once
 
 #include <ostream>
+
+/**
+ * @class Complex
+ * @brief A complex number class
+ *
+ */
 class Complex
 {
   private:

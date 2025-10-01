@@ -76,7 +76,7 @@ Complex Complex::operator/(const Complex &rhs) const
 	float d = rhs._im;
 	float fact = 1 / (c * c + d * d);
 
-	return Complex(fact * (a * c + b * d), fact * (a * d - b * c));
+	return Complex(fact * (a * c + b * d), fact * (b * c - a * d));
 }
 
 Complex Complex::operator+=(const Complex &rhs)
@@ -168,45 +168,81 @@ Complex operator+(float lhs, Complex rhs)
 {
 	return Complex(rhs.real() + lhs, rhs.im());
 }
+
 Complex operator-(float lhs, Complex rhs)
 {
 	return Complex(lhs - rhs.real(), rhs.im());
 }
+
 Complex operator*(float lhs, Complex rhs)
 {
 	return Complex(rhs.real() * lhs, rhs.im() * lhs);
 }
+
 Complex operator/(float lhs, Complex rhs)
 {
 	return lhs * rhs.reciprocal();
 }
 
+/**
+ * @brief Get the real part of the complex number
+ *
+ * @return Real part
+ */
 float Complex::real() const
 {
 	return _real;
 }
 
+/**
+ * @brief Get the imaginary part of the complex number
+ *
+ * @return Imaginary part
+ */
 float Complex::im() const
 {
 	return _im;
 }
 
+/**
+ * @brief Get the module of the complex number
+ *
+ * @return Module
+ */
 float Complex::mod() const
 {
 	return static_cast<float>(std::pow((_real * _real) + (_im * _im), 0.5));
 }
 
+/**
+ * @brief Get the conjugate of the complex number
+ *
+ * @return Conjugate
+ */
 Complex Complex::conjugate() const
 {
 	return Complex(_real, -_im);
 }
 
+/**
+ * @brief Get the reciprocal of the complex number
+ *
+ * @return Reciprocal
+ */
 Complex Complex::reciprocal() const
 {
 	float module = mod();
 	return conjugate() / (module * module);
 }
 
+/**
+ * @brief Fast multiply-add three complex numbers
+ *
+ * @param x
+ * @param y
+ * @param z
+ * @return x * y + z
+ */
 Complex fma(Complex x, Complex y, Complex z)
 {
 	return x * y + z;

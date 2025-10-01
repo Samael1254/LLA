@@ -6,6 +6,14 @@
 #include <ostream>
 #include <utility>
 
+/**
+ * @class Matrix
+ * @brief Matrix class for linear algebra and rendering purposes
+ *
+ * @tparam M Number of rows
+ * @tparam N Number of columns
+ * @tparam T Type of the Matrix elements
+ */
 template <unsigned int M, unsigned int N, class T = float>
 class Matrix
 {
@@ -26,8 +34,6 @@ class Matrix
 	Matrix(std::initializer_list<std::initializer_list<T>> init);
 	~Matrix() = default;
 
-	// Overloads
-
 	Matrix<M, N, T> &operator=(const Matrix<M, N, T> &other);
 	template <unsigned int I, unsigned int J, class U>
 	friend std::ostream &operator<<(std::ostream &os, const Matrix<I, J, U> &mat);
@@ -44,7 +50,6 @@ class Matrix
 	Matrix<M, N, T> operator-=(const Matrix<M, N, T> &rhs);
 	Matrix<M, N, T> operator*=(T lambda);
 
-	// Operations
 	void add(const Matrix<M, N, T> &rhs);
 	void sub(const Matrix<M, N, T> &rhs);
 	void scale(T lambda);
@@ -57,13 +62,9 @@ class Matrix
 	void scaleRow(unsigned int r1, T lambda);
 	void fmaRows(unsigned int r1, unsigned int r2, T lambda);
 
-	// Transformations
-
 	Matrix<N, M, T> transpose() const;
 	Matrix<M, N, T> row_echelon() const;
 	Matrix<M, N, T> inverse() const;
-
-	// Information
 
 	std::pair<unsigned int, unsigned int> size() const;
 	bool                                  isSquare() const;
@@ -71,16 +72,11 @@ class Matrix
 	T                                     determinant() const;
 	unsigned int                          rank() const;
 
-	// Extract Vectors
-
 	Vector<N, T> rowVector(unsigned int idx) const;
 	Vector<M, T> columnVector(unsigned int idx) const;
 
-	// Resize
 	template <unsigned int O, unsigned int P>
 	Matrix<O, P, T> resize(bool isHomogenous) const;
-
-	// Generators
 
 	static Matrix<M, M, T> createIdentityMatrix();
 	static Matrix<M, M, T> createRotationMatrix(float angle, EAxis axis);

@@ -39,12 +39,18 @@ void test15()
 	std::cout << "\n\e[36mMATRIX\e[0m\n";
 	Matrix<2, 4, Complex> m = {{a, b, c, d}, {c, d, b, a}};
 	std::cout << "m = " << m << "\n";
-	// std::cout << "row echelon m = " << m.row_echelon() << "\n";
+	std::cout << "row echelon m = " << m.row_echelon() << "\n";
 	Matrix<2, 2, Complex> n = {{a, b}, {c, d}};
 	std::cout << "n = " << n << "\n";
 	Matrix<2, 2, Complex> invN = n.inverse();
 	std::cout << "inverse n = " << invN << "\n";
 	std::cout << "n * inv(n) = " << n * invN << "\n";
+	Matrix<4, 4, Complex> o = {{a, b, a, b}, {c, d, c, d}, {a, b, a, b}, {c, d, c, d}};
+	std::cout << "o = " << o << "\n";
+	Matrix<4, 4, Complex> invo = o.inverse();
+	std::cout << "inverse o = " << invo << "\n";
+	std::cout << "row echelon o = " << o.row_echelon() << "\n";
+	std::cout << "o * inv(o) = " << o * invo << "\n";
 
 	// std::cout << "\n\e[36mPROJECTION MATRIX\e[0m\n";
 	// std::cout << projection(fov, ratio, near, far) << "\n";

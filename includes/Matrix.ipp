@@ -9,8 +9,15 @@
 #include <ostream>
 #include <sstream>
 #include <stdexcept>
-#include <type_traits>
 
+/**
+ * @brief Construct null matrix
+ *
+ * @tparam M Row number
+ * @tparam N Column number
+ * @tparam T Matrix Type
+ * @return The new null matrix
+ */
 template <unsigned int M, unsigned int N, class T>
 Matrix<M, N, T>::Matrix()
 {
@@ -18,6 +25,15 @@ Matrix<M, N, T>::Matrix()
 		_values[i].fill(0);
 }
 
+/**
+ * @brief Construct a Matrix with an initializer list
+ *
+ * @tparam M Row number
+ * @tparam N Column number
+ * @tparam T Type of Matrix
+ * @param init List of matrix rows, which are also lists
+ * @return The newly initialized matrix
+ */
 template <unsigned int M, unsigned int N, class T>
 Matrix<M, N, T>::Matrix(std::initializer_list<std::initializer_list<T>> init)
 {
@@ -36,6 +52,15 @@ Matrix<M, N, T>::Matrix(std::initializer_list<std::initializer_list<T>> init)
 	}
 }
 
+/**
+ * @brief Matrix copy constructor
+ *
+ * @tparam M Row number
+ * @tparam N Column number
+ * @tparam T Type of Matrix
+ * @param other Matrix to copy
+ * @return The new duplicate Matrix
+ */
 template <unsigned int M, unsigned int N, class T>
 Matrix<M, N, T>::Matrix(const Matrix<M, N, T> &other)
 {
@@ -44,7 +69,7 @@ Matrix<M, N, T>::Matrix(const Matrix<M, N, T> &other)
 			this->_values[i][j] = other._values[i][j];
 }
 
-// Overloads
+// OVERLOADS
 
 template <unsigned int M, unsigned int N, class T>
 Matrix<M, N, T> &Matrix<M, N, T>::operator=(const Matrix<M, N, T> &other)
@@ -187,7 +212,13 @@ Vector<N, T> operator*(const Vector<M, T> &lhs, const Matrix<M, N, T> &rhs)
 	return res;
 }
 
-// Operations
+// OPERATIONS
+
+/**
+ * @brief Add another Matrix in place
+ *
+ * @param rhs Matrix to add to this one
+ */
 template <unsigned int M, unsigned int N, class T>
 void Matrix<M, N, T>::add(const Matrix<M, N, T> &rhs)
 {
@@ -196,6 +227,11 @@ void Matrix<M, N, T>::add(const Matrix<M, N, T> &rhs)
 			(*this)[i][j] += rhs[i][j];
 }
 
+/**
+ * @brief Subtract another Matrix in place
+ *
+ * @param rhs Matrix to subtract to this one
+ */
 template <unsigned int M, unsigned int N, class T>
 void Matrix<M, N, T>::sub(const Matrix<M, N, T> &rhs)
 {
@@ -204,6 +240,11 @@ void Matrix<M, N, T>::sub(const Matrix<M, N, T> &rhs)
 			(*this)[i][j] -= rhs[i][j];
 }
 
+/**
+ * @brief Scale Matrix in place by a scalar
+ *
+ * @param lambda Scalar
+ */
 template <unsigned int M, unsigned int N, class T>
 void Matrix<M, N, T>::scale(T lambda)
 {
@@ -212,6 +253,12 @@ void Matrix<M, N, T>::scale(T lambda)
 			(*this)[i][j] *= lambda;
 }
 
+/**
+ * @brief Multiply this Matrix by a Vector (matrix on the left)
+ *
+ * @param rhs Vector to multiply by
+ * @return The resulting Vector
+ */
 template <unsigned int M, unsigned int N, class T>
 Vector<M, T> Matrix<M, N, T>::mul_vec(const Vector<N, T> &rhs) const
 {
@@ -223,6 +270,12 @@ Vector<M, T> Matrix<M, N, T>::mul_vec(const Vector<N, T> &rhs) const
 	return res;
 }
 
+/**
+ * @brief Multiply this Matrix by another
+ *
+ * @param rhs Matrix to multiply by
+ * @return The resulting Matrix
+ */
 template <unsigned int M, unsigned int N, class T>
 template <unsigned int O>
 Matrix<M, O, T> Matrix<M, N, T>::mul_mat(const Matrix<N, O, T> &rhs) const
@@ -236,12 +289,24 @@ Matrix<M, O, T> Matrix<M, N, T>::mul_mat(const Matrix<N, O, T> &rhs) const
 	return res;
 }
 
+/**
+ * @brief Swap two rows from the Matrix in place
+ *
+ * @param r1 Index of the first row (starting from 0)
+ * @param r2 Index of the second row (starting from 0)
+ */
 template <unsigned int M, unsigned int N, class T>
 void Matrix<M, N, T>::swapRows(unsigned int r1, unsigned int r2)
 {
 	std::swap(this->_values[r1], this->_values[r2]);
 }
 
+/**
+ * @brief Scale a row from the Matrix in place
+ *
+ * @param r1 Index of the row to scale (starting from 0)
+ * @param lambda Scalar
+ */
 template <unsigned int M, unsigned int N, class T>
 void Matrix<M, N, T>::scaleRow(unsigned int r1, T lambda)
 {
@@ -250,6 +315,13 @@ void Matrix<M, N, T>::scaleRow(unsigned int r1, T lambda)
 		row[j] *= lambda;
 }
 
+/**
+ * @brief Add a scaled row to a given Matrix row with fma (fast multiply-add) in place
+ *
+ * @param r1 Index of the first row to be modified (starting from 0)
+ * @param r2 Index of the row to be scaled and added (starting from 0)
+ * @param lambda Scalar
+ */
 template <unsigned int M, unsigned int N, class T>
 void Matrix<M, N, T>::fmaRows(unsigned int r1, unsigned int r2, T lambda)
 {
@@ -259,8 +331,13 @@ void Matrix<M, N, T>::fmaRows(unsigned int r1, unsigned int r2, T lambda)
 		row1[j] = fma(lambda, row2[j], row1[j]);
 }
 
-// Transformations
+// TRANSFORMATIONS
 
+/**
+ * @brief Compute the transpose matrix
+ *
+ * @return The transpose Matrix
+ */
 template <unsigned int M, unsigned int N, class T>
 Matrix<N, M, T> Matrix<M, N, T>::transpose() const
 {
@@ -272,40 +349,53 @@ Matrix<N, M, T> Matrix<M, N, T>::transpose() const
 	return res;
 }
 
+/**
+ * @brief Compute the reduced row-echelon matrix
+ *
+ * @return The reduced row-echelon matrix
+ */
 template <unsigned int M, unsigned int N, class T>
 Matrix<M, N, T> Matrix<M, N, T>::row_echelon() const
 {
 	Matrix<M, N, T> res(*this);
 
 	unsigned int r = 0;
-	for (unsigned int j = 0; j < N; ++j)
+	for (unsigned int j = 0; j < N && r < M; ++j)
 	{
 		T            pivot = 0;
-		unsigned int k;
+		unsigned int k = r;
 
 		for (unsigned int i = r; i < M; ++i)
 		{
-			float value = mod(res[i][j]);
-			if (value > mod(pivot))
+			T value = res[i][j];
+			if (mod(value) > mod(pivot))
 			{
 				pivot = value;
 				k = i;
 			}
 		}
-		if (pivot == 0)
+		if (mod(pivot) < 1e-6)
+		{
+			res[k][j] = T(0);
 			continue;
-		r += 1;
-		res.scaleRow(k, 1 / pivot);
-		if (k != r - 1)
-			res.swapRows(k, r - 1);
+		}
+		if (k != r)
+			res.swapRows(k, r);
+		res.scaleRow(r, 1 / pivot);
 		for (unsigned int i = 0; i < M; ++i)
-			if (i != r - 1)
-				res.fmaRows(i, r - 1, -res[i][j]);
+			if (i != r)
+				res.fmaRows(i, r, -res[i][j]);
+		r++;
 	}
 
 	return res;
 }
 
+/**
+ * @brief Compute the inverse matrix if it exists
+ *
+ * @return The inverse Matrix
+ */
 template <unsigned int M, unsigned int N, class T>
 Matrix<M, N, T> Matrix<M, N, T>::inverse() const
 {
@@ -371,18 +461,33 @@ Matrix<M, N, T> Matrix<M, N, T>::_inverseND() const
 
 // Information
 
+/**
+ * @brief Return the size (dimension) of the Matrix
+ *
+ * @return Matrix size
+ */
 template <unsigned int M, unsigned int N, class T>
 std::pair<unsigned int, unsigned int> Matrix<M, N, T>::size() const
 {
 	return {M, N};
 }
 
+/**
+ * @brief Checks if this is a square matrix
+ *
+ * @return
+ */
 template <unsigned int M, unsigned int N, class T>
 bool Matrix<M, N, T>::isSquare() const
 {
 	return M == N;
 }
 
+/**
+ * @brief Compute the trace of the Matrix
+ *
+ * @return The Matrix trace
+ */
 template <unsigned int M, unsigned int N, class T>
 T Matrix<M, N, T>::trace() const
 {
@@ -396,6 +501,11 @@ T Matrix<M, N, T>::trace() const
 	return res;
 }
 
+/**
+ * @brief Compute the determinant of the Matrix if it exists
+ *
+ * @return The Matrix determinant
+ */
 template <unsigned int M, unsigned int N, class T>
 T Matrix<M, N, T>::determinant() const
 {
@@ -467,6 +577,11 @@ T Matrix<M, N, T>::_determinantND() const
 	return det;
 }
 
+/**
+ * @brief Compute the rank of the Matrix
+ *
+ * @return The Matrix rank
+ */
 template <unsigned int M, unsigned int N, class T>
 unsigned int Matrix<M, N, T>::rank() const
 {
@@ -485,8 +600,14 @@ unsigned int Matrix<M, N, T>::rank() const
 	return rank;
 }
 
-// Extract Vectors
+// EXTRACT VECTORS
 
+/**
+ * @brief Extract a row of the Matrix as a Vector
+ *
+ * @param idx Index of the row to extract (starting from 0)
+ * @return Row Vector
+ */
 template <unsigned int M, unsigned int N, class T>
 Vector<N, T> Matrix<M, N, T>::rowVector(unsigned int idx) const
 {
@@ -497,6 +618,12 @@ Vector<N, T> Matrix<M, N, T>::rowVector(unsigned int idx) const
 	return row;
 }
 
+/**
+ * @brief Extract a column of the Matrix as a Vector
+ *
+ * @param idx Index of the column to extract (starting from 0)
+ * @return Column Vector
+ */
 template <unsigned int M, unsigned int N, class T>
 Vector<M, T> Matrix<M, N, T>::columnVector(unsigned int idx) const
 {
@@ -507,7 +634,13 @@ Vector<M, T> Matrix<M, N, T>::columnVector(unsigned int idx) const
 	return column;
 }
 
-// Resize
+/**
+ * @brief Resize the Matrix
+ *
+ * @param isHomogenous If true, fill the new elements on the diagonal with 1 and the rest with 0. If false, fill the new
+ * elements with 0.
+ * @return The resized Matrix
+ */
 template <unsigned int M, unsigned int N, class T>
 template <unsigned int O, unsigned int P>
 Matrix<O, P, T> Matrix<M, N, T>::resize(bool isHomogenous) const
@@ -527,8 +660,11 @@ Matrix<O, P, T> Matrix<M, N, T>::resize(bool isHomogenous) const
 	return resized;
 }
 
-// Generators
-
+/**
+ * @brief Create an Identity Matrix
+ *
+ * @return Identity matrix
+ */
 template <unsigned int M, unsigned int N, class T>
 Matrix<M, M, T> Matrix<M, N, T>::createIdentityMatrix()
 {
@@ -541,6 +677,13 @@ Matrix<M, M, T> Matrix<M, N, T>::createIdentityMatrix()
 	return identity;
 }
 
+/**
+ * @brief Create a Rotation Matrix
+ *
+ * @param angle Angle of the rotation (in radians)
+ * @param axis Rotation basis axis
+ * @return Rotation matrix
+ */
 template <unsigned int M, unsigned int N, class T>
 Matrix<M, M, T> Matrix<M, N, T>::createRotationMatrix(float angle, EAxis axis)
 {
@@ -559,6 +702,12 @@ Matrix<M, M, T> Matrix<M, N, T>::createRotationMatrix(float angle, EAxis axis)
 	return m;
 }
 
+/**
+ * @brief Create a translation matrix
+ *
+ * @param translator Vector containing the translation along each basis axis
+ * @return Translation matrix
+ */
 template <unsigned int M, unsigned int N, class T>
 Matrix<M, M, T> Matrix<M, N, T>::createTranslationMatrix(const Vector<M - 1> &translator)
 {
@@ -570,6 +719,12 @@ Matrix<M, M, T> Matrix<M, N, T>::createTranslationMatrix(const Vector<M - 1> &tr
 	return mat;
 }
 
+/**
+ * @brief Create a scaling matrix
+ *
+ * @param scale Vector containing the scaling for each basis axis
+ * @return Scaling matrix
+ */
 template <unsigned int M, unsigned int N, class T>
 Matrix<M, M, T> Matrix<M, N, T>::createScalingMatrix(const Vector<M> &scale)
 {
@@ -582,6 +737,12 @@ Matrix<M, M, T> Matrix<M, N, T>::createScalingMatrix(const Vector<M> &scale)
 }
 
 template <unsigned int M, unsigned int N, class T>
+/**
+ * @brief Create an augmented matrix by appending two matrixes side to side
+ *
+ * @param rightMat Matrix to append
+ * @return Augmented matrix
+ */
 template <unsigned int O>
 Matrix<M, N + O, T> Matrix<M, N, T>::augmentMatrix(const Matrix<M, O, T> &rightMat)
 {
@@ -599,6 +760,11 @@ Matrix<M, N + O, T> Matrix<M, N, T>::augmentMatrix(const Matrix<M, O, T> &rightM
 	return aug;
 }
 
+/**
+ * @brief Fill a fixed-size array with the element of the matrix in row-major order
+ *
+ * @param array Array to fill
+ */
 template <unsigned int M, unsigned int N, class T>
 void Matrix<M, N, T>::arrayRMO(T array[M * N]) const
 {
@@ -607,6 +773,11 @@ void Matrix<M, N, T>::arrayRMO(T array[M * N]) const
 			array[(i * M) + j] = (*this)[i][j];
 }
 
+/**
+ * @brief Fill a fixed-size array with the element of the matrix in column-major order
+ *
+ * @param array Array to fill
+ */
 template <unsigned int M, unsigned int N, class T>
 void Matrix<M, N, T>::arrayCMO(T array[M * N]) const
 {
