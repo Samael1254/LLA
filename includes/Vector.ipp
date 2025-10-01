@@ -277,7 +277,7 @@ T Vector<N, T>::dot(const Vector<N, T> &rhs) const
 	T res = 0;
 
 	for (unsigned int i = 0; i < N; ++i)
-		res = std::fma((*this)[i], rhs[i], res);
+		res = fma((*this)[i], rhs[i], res);
 	return res;
 }
 
@@ -319,7 +319,7 @@ float Vector<N, T>::norm() const
 	for (unsigned int i = 0; i < N; ++i)
 	{
 		float module = mod((*this)[i]);
-		res = std::fma(module, module, res);
+		res = fma(module, module, res);
 	}
 	return static_cast<float>(std::pow(res, 0.5));
 }

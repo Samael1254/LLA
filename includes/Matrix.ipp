@@ -9,6 +9,7 @@
 #include <ostream>
 #include <sstream>
 #include <stdexcept>
+#include <type_traits>
 
 template <unsigned int M, unsigned int N, class T>
 Matrix<M, N, T>::Matrix()
@@ -182,7 +183,7 @@ Vector<N, T> operator*(const Vector<M, T> &lhs, const Matrix<M, N, T> &rhs)
 
 	for (unsigned int i = 0; i < N; ++i)
 		for (unsigned int k = 0; k < M; ++k)
-			res[i] = std::fma(rhs[k][i], lhs[k], res[i]);
+			res[i] = fma(rhs[k][i], lhs[k], res[i]);
 	return res;
 }
 
@@ -218,7 +219,7 @@ Vector<M, T> Matrix<M, N, T>::mul_vec(const Vector<N, T> &rhs) const
 
 	for (unsigned int i = 0; i < M; ++i)
 		for (unsigned int k = 0; k < N; ++k)
-			res[i] = std::fma((*this)[i][k], rhs[k], res[i]);
+			res[i] = fma((*this)[i][k], rhs[k], res[i]);
 	return res;
 }
 
@@ -231,7 +232,7 @@ Matrix<M, O, T> Matrix<M, N, T>::mul_mat(const Matrix<N, O, T> &rhs) const
 	for (unsigned int i = 0; i < M; ++i)
 		for (unsigned int j = 0; j < O; ++j)
 			for (unsigned int k = 0; k < N; ++k)
-				res[i][j] = std::fma((*this)[i][k], rhs[k][j], res[i][j]);
+				res[i][j] = fma((*this)[i][k], rhs[k][j], res[i][j]);
 	return res;
 }
 
@@ -255,7 +256,7 @@ void Matrix<M, N, T>::fmaRows(unsigned int r1, unsigned int r2, T lambda)
 	std::array<T, N> &row1 = this->_values[r1];
 	std::array<T, N> &row2 = this->_values[r2];
 	for (unsigned int j = 0; j < N; ++j)
-		row1[j] = std::fma(lambda, row2[j], row1[j]);
+		row1[j] = fma(lambda, row2[j], row1[j]);
 }
 
 // Transformations
@@ -284,8 +285,8 @@ Matrix<M, N, T> Matrix<M, N, T>::row_echelon() const
 
 		for (unsigned int i = r; i < M; ++i)
 		{
-			T value = mod(res[i][j]);
-			if (value > pivot)
+			float value = mod(res[i][j]);
+			if (value > mod(pivot))
 			{
 				pivot = value;
 				k = i;
@@ -328,8 +329,12 @@ template <unsigned int M, unsigned int N, class T>
 Matrix<M, N, T> Matrix<M, N, T>::_inverse2D() const
 {
 	Matrix<M, N, T> m = (*this);
-	Matrix<M, N, T> inv = {{m[1][1], -m[0][1]}, {-m[1][0], m[0][0]}};
-	inv *= 1 / (m[0][0] * m[1][1] - m[1][0] * m[0][1]);
+	T               a = m[0][0];
+	T               b = m[0][1];
+	T               c = m[1][0];
+	T               d = m[1][1];
+	Matrix<M, N, T> inv = {{d, -b}, {-c, a}};
+	inv *= 1 / (a * d - b * c);
 	return inv;
 }
 
@@ -437,8 +442,8 @@ T Matrix<M, N, T>::_determinantND() const
 
 		for (unsigned int i = r; i < M; ++i)
 		{
-			T value = mod(mat[i][j]);
-			if (value > pivot)
+			float value = mod(mat[i][j]);
+			if (value > mod(pivot))
 			{
 				pivot = value;
 				k = i;

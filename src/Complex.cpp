@@ -8,6 +8,31 @@ Complex::Complex(float real) : _real(real), _im(0) {}
 
 Complex::Complex(float real, float im) : _real(real), _im(im) {}
 
+Complex Complex::operator-() const
+{
+	return Complex(-_real, -_im);
+}
+
+std::ostream &operator<<(std::ostream &os, const Complex &c)
+{
+	if (c._real == 0)
+	{
+		os << c.im();
+		if (c.im() != 0)
+			os << "i";
+		return os;
+	}
+	os << c.real();
+	if (c.im() == 0)
+		return os;
+	if (c.im() < 0)
+		os << " - " << -c.im();
+	else
+		os << " + " << c.im();
+	os << "i";
+	return os;
+}
+
 Complex &Complex::operator=(const Complex &rhs)
 {
 	if (this != &rhs)
@@ -18,17 +43,9 @@ Complex &Complex::operator=(const Complex &rhs)
 	return *this;
 }
 
-std::ostream &operator<<(std::ostream &os, const Complex &c)
+bool Complex::operator==(const Complex &rhs) const
 {
-	os << c.real();
-	if (c.im() == 0)
-		return os;
-	if (c.im() < 0)
-		os << " - " << -c.im();
-	else
-		os << " + " << c.im();
-	os << "i";
-	return os;
+	return _real == rhs._real && _im == rhs._im;
 }
 
 Complex Complex::operator+(const Complex &rhs) const
@@ -48,7 +65,7 @@ Complex Complex::operator*(const Complex &rhs) const
 	float c = rhs._real;
 	float d = rhs._im;
 
-	return Complex((a * c) - (b * d), (a * d) - (b * c));
+	return Complex(a * c - b * d, a * d + b * c);
 }
 
 Complex Complex::operator/(const Complex &rhs) const
@@ -93,18 +110,26 @@ Complex &Complex::operator=(float rhs)
 	return *this;
 }
 
+bool Complex::operator==(float rhs) const
+{
+	return _real == rhs && _im == 0;
+}
+
 Complex Complex::operator+(float rhs) const
 {
 	return Complex(_real + rhs, _im);
 }
+
 Complex Complex::operator-(float rhs) const
 {
 	return Complex(_real - rhs, _im);
 }
+
 Complex Complex::operator*(float rhs) const
 {
 	return Complex(_real * rhs, _im * rhs);
 }
+
 Complex Complex::operator/(float rhs) const
 {
 	return Complex(_real / rhs, _im / rhs);
@@ -115,20 +140,28 @@ Complex Complex::operator+=(float rhs)
 	*this = *this + rhs;
 	return *this;
 }
+
 Complex Complex::operator-=(float rhs)
 {
 	*this = *this - rhs;
 	return *this;
 }
+
 Complex Complex::operator*=(float rhs)
 {
 	*this = *this * rhs;
 	return *this;
 }
+
 Complex Complex::operator/=(float rhs)
 {
 	*this = *this / rhs;
 	return *this;
+}
+
+bool operator==(float lhs, Complex rhs)
+{
+	return rhs.real() == lhs && rhs.im() == 0;
 }
 
 Complex operator+(float lhs, Complex rhs)
@@ -137,7 +170,7 @@ Complex operator+(float lhs, Complex rhs)
 }
 Complex operator-(float lhs, Complex rhs)
 {
-	return Complex(rhs.real() - lhs, rhs.im());
+	return Complex(lhs - rhs.real(), rhs.im());
 }
 Complex operator*(float lhs, Complex rhs)
 {
@@ -145,7 +178,7 @@ Complex operator*(float lhs, Complex rhs)
 }
 Complex operator/(float lhs, Complex rhs)
 {
-	return Complex(rhs.real() / lhs, rhs.im() / lhs);
+	return lhs * rhs.reciprocal();
 }
 
 float Complex::real() const
@@ -161,4 +194,20 @@ float Complex::im() const
 float Complex::mod() const
 {
 	return static_cast<float>(std::pow((_real * _real) + (_im * _im), 0.5));
+}
+
+Complex Complex::conjugate() const
+{
+	return Complex(_real, -_im);
+}
+
+Complex Complex::reciprocal() const
+{
+	float module = mod();
+	return conjugate() / (module * module);
+}
+
+Complex fma(Complex x, Complex y, Complex z)
+{
+	return x * y + z;
 }
