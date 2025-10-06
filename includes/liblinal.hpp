@@ -65,6 +65,8 @@ V lerp(const V &u, const V &v, T t)
 /**
  * @brief Computes the linear combination of an array of vectors by an array of coefficients
  *
+ * @tparam N Vectors size
+ * @tparam L Number of vectors
  * @param u Vectors
  * @param coeffs Coefficients
  * @return Linear combination
