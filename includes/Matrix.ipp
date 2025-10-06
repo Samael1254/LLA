@@ -2,6 +2,7 @@
 
 #include "Matrix.hpp"
 #include "Vector.hpp"
+#include <algorithm>
 #include <array>
 #include <cmath>
 #include <initializer_list>
@@ -318,7 +319,7 @@ void Matrix<M, N, T>::scaleRow(unsigned int r1, T lambda)
 /**
  * @brief Add a scaled row to a given Matrix row with fma (fast multiply-add) in place
  *
- * @param r1 Index of the first row to be modified (starting from 0)
+ * @param r1 Index of the row to be modified (starting from 0)
  * @param r2 Index of the row to be scaled and added (starting from 0)
  * @param lambda Scalar
  */
@@ -374,17 +375,16 @@ Matrix<M, N, T> Matrix<M, N, T>::row_echelon() const
 				k = i;
 			}
 		}
-		if (mod(pivot) < 1e-6)
-		{
-			res[k][j] = T(0);
+		if (mod(pivot) < 1e-7)
 			continue;
-		}
 		if (k != r)
 			res.swapRows(k, r);
+		pivot = res[r][j];
 		res.scaleRow(r, 1 / pivot);
 		for (unsigned int i = 0; i < M; ++i)
 			if (i != r)
 				res.fmaRows(i, r, -res[i][j]);
+
 		r++;
 	}
 
@@ -456,6 +456,7 @@ Matrix<M, N, T> Matrix<M, N, T>::_inverseND() const
 	for (unsigned int i = 0; i < M; ++i)
 		for (unsigned int j = 0; j < M; ++j)
 			res[i][j] = aug[i][j + N];
+
 	return res;
 }
 
@@ -658,6 +659,30 @@ Matrix<O, P, T> Matrix<M, N, T>::resize(bool isHomogenous) const
 		}
 	}
 	return resized;
+}
+
+/**
+ * @brief Round matrix to the given precision
+ *
+ * @param precision Rounding precision (1e-3 rounds to 3 decimals for instance)
+ * @return The rounded matrix
+ */
+template <unsigned int M, unsigned int N, class T>
+Matrix<M, N, T> Matrix<M, N, T>::rounded(float precision) const
+{
+	Matrix<M, N, T> res;
+
+	for (unsigned int i = 0; i < M; ++i)
+	{
+		for (unsigned int j = 0; j < N; ++j)
+		{
+			res[i][j] = round((*this)[i][j] * (1 / precision)) * precision;
+			if (res[i][j] == -0)
+				res[i][j] = 0;
+		}
+	}
+
+	return res;
 }
 
 /**

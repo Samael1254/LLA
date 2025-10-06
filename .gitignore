@@ -3,3 +3,5 @@ lib/
 compile_flags.txt
 tests/test
 matrix_display
+Doxyfile
+docs/

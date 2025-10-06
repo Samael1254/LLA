@@ -28,7 +28,7 @@ run:
 all: $(NAME)
 
 clean:
-	rm -f $(NAME)
+	@ rm -f $(NAME)
 
 fclean: clean
 

@@ -39,18 +39,17 @@ void test15()
 	std::cout << "\n\e[36mMATRIX\e[0m\n";
 	Matrix<2, 4, Complex> m = {{a, b, c, d}, {c, d, b, a}};
 	std::cout << "m = " << m << "\n";
-	std::cout << "row echelon m = " << m.row_echelon() << "\n";
+	std::cout << "row echelon m = " << m.row_echelon().rounded(1e-5) << "\n";
 	Matrix<2, 2, Complex> n = {{a, b}, {c, d}};
 	std::cout << "n = " << n << "\n";
 	Matrix<2, 2, Complex> invN = n.inverse();
-	std::cout << "inverse n = " << invN << "\n";
-	std::cout << "n * inv(n) = " << n * invN << "\n";
-	Matrix<4, 4, Complex> o = {{a, b, a, b}, {c, d, c, d}, {a, b, a, b}, {c, d, c, d}};
+	std::cout << "inverse n = " << invN.rounded(1e-5) << "\n";
+	std::cout << "n * inv(n) = " << (n * invN).rounded(1e-5) << "\n";
+	Matrix<4, 4, Complex> o = {{a, b, a, b}, {c, d, c, d}, {a, c, b, c}, {c, a, b, d}};
 	std::cout << "o = " << o << "\n";
 	Matrix<4, 4, Complex> invo = o.inverse();
-	std::cout << "inverse o = " << invo << "\n";
-	std::cout << "row echelon o = " << o.row_echelon() << "\n";
-	std::cout << "o * inv(o) = " << o * invo << "\n";
+	std::cout << "inverse o = " << invo.rounded(1e-5) << "\n";
+	std::cout << "o * inv(o) = " << (o * invo).rounded(1e-5) << "\n";
 
 	// std::cout << "\n\e[36mPROJECTION MATRIX\e[0m\n";
 	// std::cout << projection(fov, ratio, near, far) << "\n";

@@ -14,9 +14,7 @@ class Complex
 	float _im;
 
   public:
-	Complex();
-	Complex(float real);
-	Complex(float real, float im);
+	Complex(float real = 0, float im = 0);
 	Complex(const Complex &other) = default;
 	~Complex() = default;
 
@@ -63,4 +61,5 @@ class Complex
 	Complex reciprocal() const;
 
 	friend Complex fma(Complex x, Complex y, Complex z);
+	friend Complex round(Complex c);
 };

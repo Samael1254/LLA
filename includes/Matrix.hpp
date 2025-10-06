@@ -77,6 +77,7 @@ class Matrix
 
 	template <unsigned int O, unsigned int P>
 	Matrix<O, P, T> resize(bool isHomogenous) const;
+	Matrix<M, N, T> rounded(float precision) const;
 
 	static Matrix<M, M, T> createIdentityMatrix();
 	static Matrix<M, M, T> createRotationMatrix(float angle, EAxis axis);

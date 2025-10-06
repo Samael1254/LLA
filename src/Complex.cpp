@@ -1,10 +1,7 @@
 #include "Complex.hpp"
 #include <cmath>
+#include <iostream>
 #include <ostream>
-
-Complex::Complex() : _real(0), _im(0) {}
-
-Complex::Complex(float real) : _real(real), _im(0) {}
 
 Complex::Complex(float real, float im) : _real(real), _im(im) {}
 
@@ -246,4 +243,15 @@ Complex Complex::reciprocal() const
 Complex fma(Complex x, Complex y, Complex z)
 {
 	return x * y + z;
+}
+
+/**
+ * @brief Round complex number (its real part and imaginary part)
+ *
+ * @param c Number to round
+ * @return The rounded number
+ */
+Complex round(Complex c)
+{
+	return Complex(std::round(c.real()), std::round(c.im()));
 }
