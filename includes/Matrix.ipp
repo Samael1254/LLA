@@ -346,7 +346,7 @@ Matrix<N, M, T> Matrix<M, N, T>::transpose() const
 
 	for (unsigned int i = 0; i < M; ++i)
 		for (unsigned int j = 0; j < N; ++j)
-			res[i][j] = (*this)[j][i];
+			res[j][i] = (*this)[i][j];
 	return res;
 }
 
