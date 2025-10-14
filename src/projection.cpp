@@ -17,7 +17,7 @@ Matrix<4, 4, float> projection(float fov, float ratio, float near, float far)
 
 	Matrix<4, 4, float> proj = {{1 / tanFov2, 0, 0, 0},
 	                            {0, 1 / tanVFov2, 0, 0},
-	                            {0, 0, -far / (far - near), -far * near / (far - near)},
+	                            {0, 0, -(far + near) / (far - near), -2 * far * near / (far - near)},
 	                            {0, 0, -1, 0}};
 	return proj;
 }
