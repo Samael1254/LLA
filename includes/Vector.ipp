@@ -9,6 +9,13 @@
 
 // CONSTRUCTORS AND DESTRUCTOR
 
+template <unsigned int N, class T>
+Vector<N, T>::Vector(T scalar)
+{
+	for (unsigned int i = 0; i < N; i++)
+		_values[i] = scalar;
+}
+
 /**
  * @brief Construct a Vector with an initializer list
  *
