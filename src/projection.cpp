@@ -21,3 +21,12 @@ Matrix<4, 4, float> projection(float fov, float ratio, float near, float far)
 	                            {0, 0, -1, 0}};
 	return proj;
 }
+
+Matrix<4, 4, float> orthographic(float width, float height, float near, float far)
+{
+	Matrix<4, 4, float> ortho = {{2 / width, 0, 0, 0},
+	                             {0, 2 / height, 0, 0},
+	                             {0, 0, -2 / (far - near), -(far + near) / (far - near)},
+	                             {0, 0, 0, 1}};
+	return ortho;
+}

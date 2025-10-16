@@ -108,3 +108,5 @@ float mod(T nb)
 float mod(const Complex &c);
 
 Matrix<4, 4, float> projection(float fov, float ratio, float near, float far);
+
+Matrix<4, 4, float> orthographic(float width, float height, float near, float far);
