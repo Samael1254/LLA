@@ -66,6 +66,7 @@ class Vector
 	Vector<N, T> operator+=(const Vector<N, T> &rhs);
 	Vector<N, T> operator-=(const Vector<N, T> &rhs);
 	Vector<N, T> operator*=(T lambda);
+	Vector<N, T> operator-() const;
 
 	void add(const Vector<N, T> &rhs);
 	void sub(const Vector<N, T> &rhs);

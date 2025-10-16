@@ -372,6 +372,15 @@ Vector<N, T> Vector<N, T>::operator*=(T lambda)
 	return *this;
 }
 
+template <unsigned int N, class T>
+Vector<N, T> Vector<N, T>::operator-() const
+{
+	Vector<N, T> res = *this;
+	for (unsigned int i = 0; i < N; i++)
+		res[i] *= -1;
+	return res;
+}
+
 // OPERATIONS
 
 /**

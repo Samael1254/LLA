@@ -49,6 +49,7 @@ class Matrix
 	Matrix<M, N, T> operator+=(const Matrix<M, N, T> &rhs);
 	Matrix<M, N, T> operator-=(const Matrix<M, N, T> &rhs);
 	Matrix<M, N, T> operator*=(T lambda);
+	Matrix<M, N, T> operator-();
 
 	void add(const Matrix<M, N, T> &rhs);
 	void sub(const Matrix<M, N, T> &rhs);

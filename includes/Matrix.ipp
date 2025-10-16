@@ -213,6 +213,16 @@ Vector<N, T> operator*(const Vector<M, T> &lhs, const Matrix<M, N, T> &rhs)
 	return res;
 }
 
+template <unsigned int M, unsigned int N, class T>
+Matrix<M, N, T> Matrix<M, N, T>::operator-()
+{
+	Matrix<M, N, T> res;
+	for (unsigned int i = 0; i < M; ++i)
+		for (unsigned int j = 0; j < N; ++j)
+			res[i][j] += -1;
+	return res;
+}
+
 // OPERATIONS
 
 /**
